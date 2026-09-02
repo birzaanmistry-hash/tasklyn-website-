@@ -6,10 +6,9 @@
  */
 
 export const NAV = [
-  { label: "What we do", href: "#systems" },
-  { label: "Industries", href: "#industries" },
-  { label: "How we build", href: "#process" },
-  { label: "About", href: "#about" },
+  { label: "Services", href: "/services" },
+  { label: "Team", href: "/team" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
 export const CTA_PRIMARY = "Build your system";
@@ -310,11 +309,171 @@ export const PROCESS = [
 /* ---------------- contact ---------------- */
 
 export const CONTACT = {
-  email: "tasklyn.ai@gmail.com",
-  phones: ["+91 89280 67693", "+91 99302 26026"],
+  email: "tasklynai@gmail.com",
+  instagram: { handle: "@tasklyn.ai", url: "https://instagram.com/tasklyn.ai" },
   city: "Mumbai, India",
+  reach: "Working with clients anywhere.",
   founders: [
-    { name: "Birzaan Mistry", role: "Co-founder" },
-    { name: "Mustufa Kapadia", role: "Co-founder" },
+    {
+      name: "Birzaan Mistry",
+      role: "Co-founder",
+      line: "Runs discovery and system architecture.",
+      phone: "+91 99302 26026",
+      tel: "+919930226026",
+    },
+    {
+      name: "Mustufa Kapadia",
+      role: "Co-founder",
+      line: "Runs delivery and client operations.",
+      phone: "+91 89280 67693",
+      tel: "+918928067693",
+    },
   ],
 };
+
+/* ---------------- services page ---------------- */
+
+export const SERVICE_STEPS = [
+  {
+    n: "01",
+    name: "Identify",
+    body:
+      "We sit with the people doing the work and find the loop that eats the most hours. Not the one that is easiest to automate.",
+  },
+  {
+    n: "02",
+    name: "Engineer",
+    body:
+      "We build the system against your real data, your real tools and your real edge cases, then test it on work that has already happened.",
+  },
+  {
+    n: "03",
+    name: "Hand off",
+    body:
+      "It goes live, your team learns to steer it, and you own it. We stay on to tune it as the business changes.",
+  },
+] as const;
+
+export type SystemType = {
+  id: string;
+  name: string;
+  body: string;
+  ticks: string[];
+};
+
+export const SYSTEM_TYPES: SystemType[] = [
+  {
+    id: "operations",
+    name: "Operations systems",
+    body: "The recurring internal work that runs the business day to day.",
+    ticks: [
+      "Scheduling and dispatch handled end to end",
+      "Orders and records updated without typing",
+      "Exceptions escalated, everything else closed",
+    ],
+  },
+  {
+    id: "response",
+    name: "Customer response systems",
+    body: "Every inbound message answered, at any hour, in your voice.",
+    ticks: [
+      "WhatsApp, email and web chat on one brain",
+      "Knows pricing, stock and past conversations",
+      "Hands to a human when it should",
+    ],
+  },
+  {
+    id: "sales",
+    name: "Sales and retention systems",
+    body: "Enquiries qualified and followed up before they go cold.",
+    ticks: [
+      "Intent scored the moment a lead arrives",
+      "Meetings booked straight into the calendar",
+      "Lapsed customers re-approached on schedule",
+    ],
+  },
+  {
+    id: "reporting",
+    name: "Reporting and insight systems",
+    body: "The numbers you need, assembled before you ask for them.",
+    ticks: [
+      "Daily and weekly reports built automatically",
+      "Data pulled from every tool you already run",
+      "Anomalies flagged rather than buried",
+    ],
+  },
+  {
+    id: "custom",
+    name: "Custom builds",
+    body: "The process that is specific to how you work, and always has been.",
+    ticks: [
+      "Built around your workflow, not a template",
+      "Connects to systems with no clean integration",
+      "Scoped to one problem and shipped",
+    ],
+  },
+];
+
+export const TRUST = [
+  {
+    name: "Live in weeks, not quarters",
+    body:
+      "First system in production inside weeks. You see it working on real work before you commit further.",
+  },
+  {
+    name: "Priced for real businesses",
+    body:
+      "Scoped to one function at a time, so the cost is a number you can weigh against the hours it removes.",
+  },
+  {
+    name: "Built around your business",
+    body:
+      "We start from your process. Nothing here is a template with your logo dropped into it.",
+  },
+  {
+    name: "We do not hand off and vanish",
+    body:
+      "Systems drift as the business changes. We stay on to tune them rather than leaving you a manual.",
+  },
+  {
+    name: "Founders on the build",
+    body:
+      "The people you meet in the first call are the people who build it. There is no layer in between.",
+  },
+] as const;
+
+export const SERVICE_INDUSTRIES = [
+  { name: "E-commerce", loop: "Order questions, stock checks, refund requests" },
+  { name: "Real estate", loop: "Enquiry chasing, site-visit scheduling, follow-up" },
+  { name: "Healthcare", loop: "Appointment booking, reminders, no-show recovery" },
+  { name: "Education", loop: "Course enquiries, counsellor routing, enrolment follow-up" },
+  { name: "Manufacturing", loop: "Quote requests, order status, dispatch updates" },
+  { name: "Hospitality", loop: "Availability checks, bookings, pre-arrival messages" },
+  { name: "Professional services", loop: "Scoping calls, proposal chasing, renewals" },
+  { name: "Retail", loop: "Stock queries, offer sends, repeat-purchase nudges" },
+] as const;
+
+/* ---------------- team page ---------------- */
+
+export const VALUES = [
+  {
+    name: "Systems, not tools",
+    body: "A tool needs someone to drive it. A system does the work and tells you when it could not.",
+  },
+  {
+    name: "Engineering-grade",
+    body: "Tested against real history, with failure states designed rather than discovered in production.",
+  },
+  {
+    name: "Proven, not promised",
+    body: "We show it running on your own work before you are asked to trust it.",
+  },
+  {
+    name: "Custom, not templated",
+    body: "Your process is the specification. We do not reshape your business to fit a product we already built.",
+  },
+  {
+    name: "Outcome-literate",
+    body: "We measure hours removed and work completed, not messages sent or tickets touched.",
+  },
+] as const;

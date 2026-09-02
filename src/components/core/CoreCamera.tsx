@@ -71,9 +71,35 @@ export function CoreCamera() {
   useFrame((_, delta) => {
     const cam = camera as THREE.PerspectiveCamera;
     const dt = Math.min(delta, 0.05);
-    const reduced = readState().reduced;
+    const st = readState();
+    const reduced = st.reduced;
 
-    const intro = readState().phase === "live" ? 1 : frame.intro;
+    // --- ambient pages ------------------------------------------------
+    // A slow, wide orbit. The Core is company for the copy, not the subject,
+    // so it never comes close and never changes shape.
+    if (st.mode === "ambient") {
+      const t = frame.time * (reduced ? 0 : 0.055);
+      const r = 19.5;
+      _desired.set(
+        Math.sin(t) * r + (reduced ? 0 : frame.ex * 0.9),
+        1.4 + (reduced ? 0 : frame.ey * 0.7),
+        Math.cos(t) * r
+      );
+      _target.set(0, 0, 0);
+
+      const k = 1 - Math.pow(0.02, dt);
+      cam.position.lerp(_desired, k);
+      look.current.lerp(_target, k);
+      cam.lookAt(look.current);
+      cam.fov += (36 - cam.fov) * k;
+      cam.updateProjectionMatrix();
+
+      const d = cam.position.length();
+      U.uPointer.value.set(frame.ex * d * 0.4, frame.ey * d * 0.3, 0);
+      return;
+    }
+
+    const intro = st.phase === "live" ? 1 : frame.intro;
     const scrollCam = sampleCamera(frame.scroll);
 
     if (intro < 1) {

@@ -1,6 +1,7 @@
 "use client";
 
 import { BOOKING_URL, CONTACT, CTA_PRIMARY } from "@/lib/content";
+import { EmailLink, InstagramLink, FounderLine } from "../ui/ContactBits";
 import { LogoMark } from "../ui/Logo";
 import { MagneticButton } from "../ui/MagneticButton";
 
@@ -34,12 +35,8 @@ export function Footer() {
 
             <ul className="mt-10 border-t border-[color:var(--color-line)]">
               {CONTACT.founders.map((f) => (
-                <li
-                  key={f.name}
-                  className="flex items-baseline justify-between gap-4 border-b border-[color:var(--color-line)] py-4"
-                >
-                  <span className="text-[1.0625rem] tracking-[-0.02em]">{f.name}</span>
-                  <span className="t-tech">{f.role}</span>
+                <li key={f.name} className="border-b border-[color:var(--color-line)] py-5">
+                  <FounderLine founder={f} />
                 </li>
               ))}
             </ul>
@@ -84,33 +81,23 @@ export function Footer() {
             <dl className="mt-10 grid gap-6 sm:grid-cols-3">
               <div>
                 <dt className="t-tech">Email</dt>
-                <dd className="mt-2">
-                  <a
-                    href={`mailto:${CONTACT.email}`}
-                    className="text-[0.9375rem] text-[color:var(--color-ink)] underline decoration-[color:var(--color-line)] underline-offset-4 transition-colors hover:decoration-[color:var(--color-accent)]"
-                  >
-                    {CONTACT.email}
-                  </a>
+                <dd className="mt-2.5 text-[0.9375rem]">
+                  <EmailLink />
                 </dd>
               </div>
               <div>
-                <dt className="t-tech">Phone</dt>
-                <dd className="mt-2 space-y-1">
-                  {CONTACT.phones.map((p) => (
-                    <a
-                      key={p}
-                      href={`tel:${p.replace(/\s/g, "")}`}
-                      className="block text-[0.9375rem] text-[color:var(--color-ink)] transition-colors hover:text-[color:var(--color-accent-hot)]"
-                    >
-                      {p}
-                    </a>
-                  ))}
+                <dt className="t-tech">Instagram</dt>
+                <dd className="mt-2.5 text-[0.9375rem]">
+                  <InstagramLink />
                 </dd>
               </div>
               <div>
                 <dt className="t-tech">Studio</dt>
-                <dd className="mt-2 text-[0.9375rem] text-[color:var(--color-ink)]">
+                <dd className="mt-2.5 text-[0.9375rem] text-[color:var(--color-ink)]">
                   {CONTACT.city}
+                  <span className="mt-1 block text-[color:var(--color-muted)]">
+                    {CONTACT.reach}
+                  </span>
                 </dd>
               </div>
             </dl>

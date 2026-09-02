@@ -36,8 +36,16 @@ export const frame = {
 
 export type Phase = "boot" | "intro" | "live";
 
+/**
+ * "journey" is the home page: scroll drives the camera through the beats.
+ * "ambient" is every other page: the Core is present and alive but holds still,
+ * because those pages are documents to read, not a film to travel through.
+ */
+export type Mode = "journey" | "ambient";
+
 type Snapshot = {
   phase: Phase;
+  mode: Mode;
   /** True once the renderer exists and the Core can draw its first frame. */
   coreReady: boolean;
   agent: string | null;
@@ -50,6 +58,7 @@ export type Tier = "high" | "mid" | "low";
 
 let snap: Snapshot = {
   phase: "boot",
+  mode: "journey",
   coreReady: false,
   agent: null,
   industry: "ecommerce",

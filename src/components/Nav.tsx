@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { NAV, CTA_PRIMARY, BOOKING_URL } from "@/lib/content";
 import { LogoMark } from "./ui/Logo";
 import { frame, useAppState } from "@/lib/store";
@@ -14,6 +16,7 @@ import { frame, useAppState } from "@/lib/store";
  */
 export function Nav() {
   const { phase } = useAppState();
+  const pathname = usePathname();
   const bar = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
   const [condensed, setCondensed] = useState(false);
@@ -70,26 +73,31 @@ export function Nav() {
           aria-label="Primary"
           className="mx-auto flex h-16 w-full max-w-[1400px] items-center justify-between px-6 md:px-10 lg:px-14"
         >
-          <a
-            href="#top"
+          <Link
+            href="/"
             className="flex items-center gap-2.5 rounded-[var(--radius-machined)]"
-            aria-label="Tasklyn, back to top"
+            aria-label="Tasklyn, home"
           >
             <LogoMark className="h-6 w-6" id="nav-mark" />
             <span className="text-[0.9375rem] font-medium tracking-[0.14em]">TASKLYN</span>
-          </a>
+          </Link>
 
           <ul className="hidden items-center gap-9 lg:flex">
-            {NAV.map((n) => (
-              <li key={n.href}>
-                <a
-                  href={n.href}
-                  className="relative text-[0.875rem] text-[color:var(--color-muted)] transition-colors duration-300 hover:text-[color:var(--color-ink)]"
-                >
-                  {n.label}
-                </a>
-              </li>
-            ))}
+            {NAV.map((n) => {
+              const on = pathname === n.href;
+              return (
+                <li key={n.href}>
+                  <Link
+                    href={n.href}
+                    aria-current={on ? "page" : undefined}
+                    className="relative text-[0.875rem] transition-colors duration-300 hover:text-[color:var(--color-ink)]"
+                    style={{ color: on ? "var(--color-ink)" : "var(--color-muted)" }}
+                  >
+                    {n.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
           <div className="flex items-center gap-3">
@@ -134,13 +142,14 @@ export function Nav() {
         <ul className="mx-auto flex max-w-[1400px] flex-col gap-1 px-6 py-4">
           {NAV.map((n) => (
             <li key={n.href}>
-              <a
+              <Link
                 href={n.href}
                 onClick={() => setOpen(false)}
+                aria-current={pathname === n.href ? "page" : undefined}
                 className="block py-3 text-lg text-[color:var(--color-ink)]"
               >
                 {n.label}
-              </a>
+              </Link>
             </li>
           ))}
           <li className="pt-2">

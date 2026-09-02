@@ -20,13 +20,17 @@ export function CoreDriver() {
 
   useFrame((_, delta) => {
     const dt = Math.min(delta, 0.05);
-    const s = frame.scroll;
-    const reduced = readState().reduced;
+    const st = readState();
+    const ambient = st.mode === "ambient";
+    // In ambient mode the beats are not on the page, so scroll must not be
+    // allowed to drive them. Pinning it at 0 keeps the Core whole and closed.
+    const s = ambient ? 0 : frame.scroll;
+    const reduced = st.reduced;
 
     frame.time += dt;
 
     // Once the page is live the opening is over, whatever frame.intro says.
-    const intro = readState().phase === "live" ? 1 : frame.intro;
+    const intro = ambient || st.phase === "live" ? 1 : frame.intro;
 
     // Eased pointer. The Core lags the cursor by design; snapping to it makes
     // the object feel weightless.
@@ -89,7 +93,7 @@ export function CoreDriver() {
     U.uCharge.value += (frame.charge - U.uCharge.value) * Math.min(1, dt * 5);
 
     // --- industry shape --------------------------------------------------
-    const ind = INDUSTRIES.find((i) => i.id === readState().industry) ?? INDUSTRIES[0];
+    const ind = INDUSTRIES.find((i) => i.id === st.industry) ?? INDUSTRIES[0];
     const k = Math.min(1, dt * 2.2);
     shape.current.x += (ind.shape.spread - shape.current.x) * k;
     shape.current.y += (ind.shape.twist - shape.current.y) * k;
