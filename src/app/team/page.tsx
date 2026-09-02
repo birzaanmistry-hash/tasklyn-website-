@@ -35,13 +35,13 @@ export default function TeamPage() {
         <Wrap>
           <h2 className="t-section max-w-[12ch]">The founders.</h2>
 
-          <div className="mt-12 grid gap-px overflow-hidden rounded-[var(--radius-machined)] border border-[color:var(--color-line)] bg-[color:var(--color-line)] md:grid-cols-2">
+          <ul className="mt-11 border-t border-[color:var(--color-line)]">
             {CONTACT.founders.map((f) => (
-              <div key={f.name} className="bg-[color:var(--color-abyss)] p-8 md:p-10">
+              <li key={f.name} className="border-b border-[color:var(--color-line)] py-8">
                 <FounderLine founder={f} showLine />
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </Wrap>
       </section>
 
@@ -50,7 +50,7 @@ export default function TeamPage() {
         <Wrap>
           <h2 className="t-section max-w-[14ch]">How we think.</h2>
 
-          <ul className="mt-12 border-t border-[color:var(--color-line)]">
+          <ul className="mt-11 border-t border-[color:var(--color-line)]">
             {VALUES.map((v) => (
               <li
                 key={v.name}

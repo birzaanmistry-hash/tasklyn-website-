@@ -62,13 +62,15 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Right: the form */}
-            <div className="panel p-7 sm:p-9">
-              <h2 className="text-[1.375rem] font-medium tracking-[-0.03em]">
-                Send us the problem.
+            {/* Right: the form. On a hairline, like everything else, rather
+                than in a raised panel. */}
+            <div className="border-t border-[color:var(--color-line)] pt-7">
+              <p className="t-tech">Send us the problem</p>
+              <h2 className="mt-3 text-[1.375rem] font-medium tracking-[-0.03em]">
+                One function, in your own words.
               </h2>
-              <p className="mt-3 max-w-[44ch] text-[0.9375rem] leading-relaxed text-[color:var(--color-muted)]">
-                One function, in your own words. We reply within one working day.
+              <p className="mt-2.5 max-w-[46ch] text-[0.9375rem] leading-relaxed text-[color:var(--color-muted)]">
+                We reply within one working day.
               </p>
 
               <div className="mt-8">

@@ -16,6 +16,13 @@ export const metadata: Metadata = {
     "Tasklyn builds operations, customer response, sales, reporting and custom AI systems. We do not pick a niche. We replace the function.",
 };
 
+/**
+ * Services.
+ *
+ * Built in the home page's language: hairline rules, large type and whitespace
+ * doing the structural work. An earlier version used bordered card grids, which
+ * is the templated look the rest of this site is deliberately avoiding.
+ */
 export default function ServicesPage() {
   return (
     <SiteShell>
@@ -41,14 +48,15 @@ export default function ServicesPage() {
         <Wrap>
           <h2 className="t-section max-w-[14ch]">How we work.</h2>
 
-          <ol className="mt-12 grid gap-px overflow-hidden rounded-[var(--radius-machined)] border border-[color:var(--color-line)] bg-[color:var(--color-line)] md:grid-cols-3">
+          <ol className="mt-11 border-t border-[color:var(--color-line)]">
             {SERVICE_STEPS.map((s) => (
-              <li key={s.n} className="bg-[color:var(--color-abyss)] p-7 md:p-9">
+              <li
+                key={s.n}
+                className="grid gap-2 border-b border-[color:var(--color-line)] py-7 md:grid-cols-[auto_minmax(0,20ch)_minmax(0,1fr)] md:items-baseline md:gap-10"
+              >
                 <span className="t-tech text-[color:var(--color-accent)]">{s.n}</span>
-                <h3 className="mt-4 text-[1.375rem] font-medium tracking-[-0.03em]">
-                  {s.name}
-                </h3>
-                <p className="mt-3 text-[0.9375rem] leading-relaxed text-[color:var(--color-muted)]">
+                <h3 className="text-[1.25rem] font-medium tracking-[-0.03em]">{s.name}</h3>
+                <p className="max-w-[62ch] text-[0.9375rem] leading-relaxed text-[color:var(--color-muted)]">
                   {s.body}
                 </p>
               </li>
@@ -66,46 +74,47 @@ export default function ServicesPage() {
             the first is running.
           </p>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-11 border-t border-[color:var(--color-line)]">
             {SYSTEM_TYPES.map((t) => (
-              <article
+              <li
                 key={t.id}
-                className="flex flex-col rounded-[var(--radius-machined)] border border-[color:var(--color-line)] bg-[color:var(--color-abyss)]/70 p-7 transition-colors duration-300 hover:border-[color:var(--color-accent-deep)]"
+                className="grid gap-5 border-b border-[color:var(--color-line)] py-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16"
               >
-                <h3 className="text-[1.25rem] font-medium leading-snug tracking-[-0.03em]">
-                  {t.name}
-                </h3>
-                <p className="mt-3 text-[0.9375rem] leading-relaxed text-[color:var(--color-muted)]">
-                  {t.body}
-                </p>
+                <div>
+                  <h3 className="text-[1.375rem] font-medium tracking-[-0.03em]">{t.name}</h3>
+                  <p className="mt-2.5 max-w-[44ch] text-[0.9375rem] leading-relaxed text-[color:var(--color-muted)]">
+                    {t.body}
+                  </p>
+                </div>
 
-                <ul className="mt-6 space-y-3 border-t border-[color:var(--color-line)] pt-6">
+                <ul className="grid gap-2.5 self-center sm:grid-cols-3 lg:gap-x-8">
                   {t.ticks.map((tick) => (
-                    <li key={tick} className="flex gap-3">
+                    <li key={tick} className="flex gap-2.5">
                       <Check
-                        size={15}
+                        size={14}
                         weight="bold"
                         aria-hidden="true"
-                        className="mt-[3px] shrink-0 text-[color:var(--color-accent)]"
+                        className="mt-[4px] shrink-0 text-[color:var(--color-accent)]"
                       />
-                      <span className="text-[0.9375rem] leading-snug text-[color:var(--color-ink)]">
+                      <span className="text-[0.875rem] leading-snug text-[color:var(--color-ink)]">
                         {tick}
                       </span>
                     </li>
                   ))}
                 </ul>
-              </article>
+              </li>
             ))}
 
-            {/* The sixth cell is the honest one: the list above is not exhaustive. */}
-            <article className="flex flex-col justify-between rounded-[var(--radius-machined)] border border-dashed border-[color:var(--color-line)] p-7">
+            {/* The list is not exhaustive, and says so in its own last row
+                rather than in a separate box. */}
+            <li className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 border-b border-[color:var(--color-line)] py-8">
               <div>
-                <h3 className="text-[1.25rem] font-medium leading-snug tracking-[-0.03em]">
+                <h3 className="text-[1.375rem] font-medium tracking-[-0.03em]">
                   Something else?
                 </h3>
-                <p className="mt-3 text-[0.9375rem] leading-relaxed text-[color:var(--color-muted)]">
-                  If the work is repetitive, has rules, and someone is doing it by hand,
-                  it can probably be built. Tell us what it is.
+                <p className="mt-2.5 max-w-[52ch] text-[0.9375rem] leading-relaxed text-[color:var(--color-muted)]">
+                  If the work repeats, has rules, and someone is doing it by hand, it can
+                  probably be built. Tell us what it is.
                 </p>
               </div>
 
@@ -113,14 +122,19 @@ export default function ServicesPage() {
                 href={BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-8 inline-flex w-fit items-center gap-2 text-[0.9375rem] font-medium text-[color:var(--color-accent)] transition-colors hover:text-[color:var(--color-accent-hot)]"
+                className="group inline-flex items-center gap-2 text-[0.9375rem] font-medium text-[color:var(--color-accent)] transition-colors hover:text-[color:var(--color-accent-hot)]"
               >
                 Ask us
-                <span aria-hidden="true">&rarr;</span>
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  &rarr;
+                </span>
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
-            </article>
-          </div>
+            </li>
+          </ul>
         </Wrap>
       </section>
 
@@ -129,15 +143,15 @@ export default function ServicesPage() {
         <Wrap>
           <h2 className="t-section max-w-[18ch]">Why businesses trust Tasklyn.</h2>
 
-          <ul className="mt-12 border-t border-[color:var(--color-line)]">
+          <ul className="mt-11 border-t border-[color:var(--color-line)]">
             {TRUST.map((r, i) => (
               <li
                 key={r.name}
-                className="grid gap-2 border-b border-[color:var(--color-line)] py-7 md:grid-cols-[auto_minmax(0,22ch)_minmax(0,1fr)] md:items-baseline md:gap-8"
+                className="grid gap-2 border-b border-[color:var(--color-line)] py-7 md:grid-cols-[auto_minmax(0,24ch)_minmax(0,1fr)] md:items-baseline md:gap-10"
               >
                 <span className="t-tech">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="text-[1.125rem] font-medium tracking-[-0.025em]">{r.name}</h3>
-                <p className="text-[0.9375rem] leading-relaxed text-[color:var(--color-muted)]">
+                <p className="max-w-[62ch] text-[0.9375rem] leading-relaxed text-[color:var(--color-muted)]">
                   {r.body}
                 </p>
               </li>
@@ -155,18 +169,21 @@ export default function ServicesPage() {
             and is being done by a person.
           </p>
 
-          <div className="mt-12 grid gap-px overflow-hidden rounded-[var(--radius-machined)] border border-[color:var(--color-line)] bg-[color:var(--color-line)] sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-11 grid border-t border-[color:var(--color-line)] md:grid-cols-2 md:gap-x-16">
             {SERVICE_INDUSTRIES.map((ind) => (
-              <div key={ind.name} className="bg-[color:var(--color-abyss)] p-6">
+              <li
+                key={ind.name}
+                className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1 border-b border-[color:var(--color-line)] py-5"
+              >
                 <h3 className="text-[1.0625rem] font-medium tracking-[-0.025em]">
                   {ind.name}
                 </h3>
-                <p className="mt-2.5 text-[0.875rem] leading-relaxed text-[color:var(--color-muted)]">
+                <p className="t-data max-w-[40ch] text-[color:var(--color-muted)]">
                   {ind.loop}
                 </p>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
 
           <p className="t-tech mt-8">Not listed? The shape is usually the same.</p>
         </Wrap>

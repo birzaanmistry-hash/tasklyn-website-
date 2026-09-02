@@ -41,7 +41,7 @@ export function CtaBand({
 /** The narrow "prefer to talk" strip used on the contact page. */
 export function BookBand() {
   return (
-    <section className="border-y border-[color:var(--color-line)] bg-[color:var(--color-surface)]/40">
+    <section className="border-y border-[color:var(--color-line)]">
       <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-6 px-6 py-10 md:flex-row md:items-center md:justify-between md:px-10 lg:px-14">
         <div>
           <h2 className="text-[1.375rem] font-medium tracking-[-0.03em]">

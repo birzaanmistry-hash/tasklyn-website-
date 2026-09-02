@@ -38,10 +38,18 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       <Nav />
 
       <main id="main" className="relative z-10">
-        {/* One flat reading ground for the whole document. These pages carry
-            far more text than the home page, and a per-section scrim would
-            leave visible seams between them. */}
-        <div className="pointer-events-none fixed inset-0 z-0 bg-[color:var(--color-void)]/[0.93]" />
+        {/* One reading ground for the whole document. These pages carry far
+            more text than the home page, so the scrim is continuous rather than
+            per-section, but it clears at the frame edges so the Core still reads
+            at the margins the way it does on the home page. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-0"
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(5,7,12,0.70) 0%, rgba(5,7,12,0.93) 9%, rgba(5,7,12,0.93) 91%, rgba(5,7,12,0.70) 100%)",
+          }}
+        />
         <div className="relative z-10">{children}</div>
       </main>
 
