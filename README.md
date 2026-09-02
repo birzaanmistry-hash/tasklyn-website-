@@ -73,10 +73,17 @@ relying on the Core happening to be dark there.
 
 ## The opening sequence
 
-It runs about five and a half seconds and it opens already in motion. An earlier
-cut ran eleven seconds and held on an almost-empty frame for the first second and
-a half; that reads as a site that has not loaded rather than as an establishing
-shot, and it was the main reason people reached for Skip.
+It is not skippable: every visitor sees it. That is only defensible because it is
+short. It runs about three and a half seconds and opens already in motion. An
+earlier cut ran eleven seconds and held on an almost-empty frame for the first
+second and a half, which reads as a site that has not loaded rather than as an
+establishing shot.
+
+Because there is no skip control, `FAILSAFE_MS` in `CinematicIntro` releases the
+page on wall-clock time regardless of what GSAP is doing. A backgrounded tab
+throttles rAF hard enough to stall the timeline, and without the failsafe that
+would strand the visitor on the title card with no way out. It is never reached
+in a normal run.
 
 It also does not start until `coreReady` is set (in `CoreScene`'s `onCreated`),
 with an 1800ms fallback in case WebGL never initialises. Running the first shots

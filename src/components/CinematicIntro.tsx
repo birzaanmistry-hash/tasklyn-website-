@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { frame, readState, setState, useAppState } from "@/lib/store";
 import { prefersReducedMotion } from "@/lib/perf";
@@ -14,13 +14,10 @@ import { LogoMark } from "./ui/Logo";
  * of the same object the rest of the page is made of, with one plain line
  * underneath saying what Tasklyn actually does.
  *
- * Two things govern its timing, and both exist because people reach for Skip:
- *
- * 1. It does not start until the renderer exists. Running the first shots while
- *    three.js is still downloading spends them on a blank screen, which reads as
- *    a site that has not loaded rather than as an establishing shot.
- * 2. It runs about five and a half seconds, not eleven, and it opens already in
- *    motion. There is no held void at the top any more.
+ * It is not skippable, by decision: every visitor sees it. That decision is only
+ * defensible because it is short. It runs about three and a half seconds, opens
+ * already in motion, and does not begin until the renderer can actually draw, so
+ * none of it is spent on a blank screen while three.js downloads.
  *
  * The timeline drives `frame.intro` from 0 to 1. The camera and every Core
  * material read that one value, so the shot list and the object are never out
@@ -31,12 +28,19 @@ const SYSTEMS = ["Intelligence", "Context", "Memory", "Reasoning", "Execution"];
 const NAME = "TASKLYN";
 
 /** If the renderer never arrives (WebGL blocked, slow device), start anyway. */
-const READY_FALLBACK_MS = 1800;
+const READY_FALLBACK_MS = 1500;
+
+/**
+ * Hard failsafe. With no skip control, a stalled timeline would trap the visitor
+ * on the title card permanently. A background tab throttles rAF, which is enough
+ * to do it. This releases the page on wall-clock time no matter what GSAP is
+ * doing, and is never reached in a normal run.
+ */
+const FAILSAFE_MS = 11000;
 
 export function CinematicIntro() {
   const { phase } = useAppState();
   const root = useRef<HTMLDivElement>(null);
-  const [skippable, setSkippable] = useState(false);
   const started = useRef(false);
   const done = useRef(false);
 
@@ -50,100 +54,97 @@ export function CinematicIntro() {
     let solo: gsap.core.Timeline | null = null;
     let raf = 0;
 
+    const finish = () => {
+      if (done.current) return;
+      done.current = true;
+      frame.intro = 1;
+      setState({ phase: "live" });
+    };
+
     const begin = () => {
       if (cancelled || started.current) return;
       started.current = true;
 
-      const reduced = prefersReducedMotion();
-
       // Reduced motion gets the title card, held briefly, with no camera travel
       // and no collapse.
-      if (reduced) {
-        solo = gsap.timeline({ onComplete: () => setState({ phase: "live" }) });
-        solo.to(frame, { intro: 1, duration: 1.0, ease: "power2.out" }, 0);
+      if (prefersReducedMotion()) {
+        solo = gsap.timeline({ onComplete: finish });
+        solo.to(frame, { intro: 1, duration: 0.8, ease: "power2.out" }, 0);
         solo.set([".intro-mark", ".intro-name span", ".intro-desc"], { opacity: 1, y: 0 }, 0);
-        solo.to(".intro-layer", { opacity: 1, duration: 0.35 }, 0);
-        solo.to(".intro-layer", { opacity: 0, duration: 0.5 }, 2.0);
+        solo.to(".intro-layer", { opacity: 1, duration: 0.3 }, 0);
+        solo.to(".intro-layer", { opacity: 0, duration: 0.45 }, 1.7);
         return;
       }
 
       ctx = gsap.context(() => {
-        const tl = gsap.timeline({
-          onComplete: () => {
-            done.current = true;
-            setState({ phase: "live" });
-          },
-        });
+        const tl = gsap.timeline({ onComplete: finish });
 
         // The single value the whole sequence is built on.
-        tl.fromTo(frame, { intro: 0 }, { intro: 1, duration: 5.5, ease: "none" }, 0);
+        tl.fromTo(frame, { intro: 0 }, { intro: 1, duration: 3.4, ease: "none" }, 0);
         tl.set(".intro-layer", { opacity: 1 }, 0);
 
-        /* --- initialisation readout ------------------------------------- */
-        tl.fromTo(
-          ".intro-head",
-          { opacity: 0, y: 5 },
-          { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" },
-          3.3
-        );
+        /* --- initialisation readout -------------------------------------
+           A fast cascade rather than a paced list. At this speed it reads as
+           a system coming up, which is the point; it is not there to be read
+           word by word. */
+        tl.fromTo(".intro-head", { opacity: 0, y: 4 }, { opacity: 1, y: 0, duration: 0.2 }, 1.82);
         tl.fromTo(
           ".intro-sys",
-          { opacity: 0, x: -8 },
-          { opacity: 1, x: 0, duration: 0.2, stagger: 0.07, ease: "power2.out" },
-          3.45
+          { opacity: 0, x: -6 },
+          { opacity: 1, x: 0, duration: 0.14, stagger: 0.045, ease: "power2.out" },
+          1.92
         );
-        tl.fromTo(".intro-online", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 3.86);
+        tl.fromTo(".intro-online", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 2.16);
 
         // Clear the frame so the collapse happens on empty black.
         tl.to(
           [".intro-head", ".intro-sys", ".intro-online"],
-          { opacity: 0, duration: 0.22, ease: "power2.in" },
-          4.02
+          { opacity: 0, duration: 0.16, ease: "power2.in" },
+          2.3
         );
 
         /* --- collapse. Driven by the Core itself, via frame.intro. ------- */
 
         /* --- the title ---------------------------------------------------
            The mark is built along the axis of its own arrow as the Core
-           expands back out, and the name resolves letter by letter from wide
-           tracking, the way a title card settles. */
+           expands back out, and the name resolves from wide tracking, the way
+           a title card settles. */
 
-        tl.set(".intro-title", { opacity: 1 }, 4.58);
+        tl.set(".intro-title", { opacity: 1 }, 2.8);
 
-        // Two stops chase each other along the arrow's axis. The trailing stop
-        // lags, giving the build a soft leading edge instead of a hard line.
-        tl.fromTo(".mark-w0", { attr: { offset: 0 } }, { attr: { offset: 1 }, duration: 0.6, ease: "power2.inOut" }, 4.6);
-        tl.fromTo(".mark-w1", { attr: { offset: 0 } }, { attr: { offset: 1 }, duration: 0.42, ease: "power1.out" }, 4.6);
-        tl.fromTo(".intro-mark", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" }, 4.6);
+        tl.fromTo(".mark-w0", { attr: { offset: 0 } }, { attr: { offset: 1 }, duration: 0.42, ease: "power2.inOut" }, 2.82);
+        tl.fromTo(".mark-w1", { attr: { offset: 0 } }, { attr: { offset: 1 }, duration: 0.3, ease: "power1.out" }, 2.82);
+        tl.fromTo(".intro-mark", { opacity: 0, scale: 0.88 }, { opacity: 1, scale: 1, duration: 0.45, ease: "expo.out" }, 2.82);
 
         tl.fromTo(
           ".intro-name span",
-          { opacity: 0, yPercent: 55, filter: "blur(7px)" },
-          { opacity: 1, yPercent: 0, filter: "blur(0px)", duration: 0.55, stagger: 0.038, ease: "expo.out" },
-          4.76
+          { opacity: 0, yPercent: 45, filter: "blur(5px)" },
+          { opacity: 1, yPercent: 0, filter: "blur(0px)", duration: 0.4, stagger: 0.028, ease: "expo.out" },
+          2.94
         );
 
         // Tracking collapses from wide to set. This is the move that makes a
         // wordmark feel like a title rather than a heading.
         tl.fromTo(
           ".intro-name",
-          { letterSpacing: "0.55em" },
-          { letterSpacing: "0.22em", duration: 0.95, ease: "expo.out" },
-          4.76
+          { letterSpacing: "0.5em" },
+          { letterSpacing: "0.22em", duration: 0.7, ease: "expo.out" },
+          2.94
         );
 
-        tl.fromTo(".intro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.inOut" }, 5.06);
-        tl.fromTo(".intro-desc", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 5.16);
+        tl.fromTo(".intro-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.38, ease: "power3.inOut" }, 3.16);
+        tl.fromTo(".intro-desc", { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.32, ease: "power2.out" }, 3.24);
 
-        /* Hand the frame to the page. */
-        tl.to(".intro-layer", { opacity: 0, duration: 0.45, ease: "power2.inOut" }, 5.95);
+        /* Hand the frame to the page. The title holds for about a second
+           before it goes, which is the minimum for the descriptor to register. */
+        tl.to(".intro-layer", { opacity: 0, duration: 0.4, ease: "power2.inOut" }, 4.05);
       }, root);
     };
 
-    // Wait for the renderer, then start. This is polled rather than driven off a
-    // React dependency on purpose: making the effect depend on `coreReady` means
-    // it re-runs the moment the renderer appears, and its cleanup would kill a
-    // timeline the fallback had already started, freezing the film for good.
+    // Wait for the renderer, then start. Polled rather than driven off a React
+    // dependency on purpose: as a dependency the effect re-runs the moment the
+    // renderer appears, and its cleanup would kill a timeline the fallback had
+    // already started, freezing the film for good.
     const openedAt = performance.now();
     const check = () => {
       if (cancelled || started.current) return;
@@ -155,12 +156,12 @@ export function CinematicIntro() {
     };
     raf = requestAnimationFrame(check);
 
-    const skipTimer = window.setTimeout(() => setSkippable(true), 700);
+    const failsafe = window.setTimeout(finish, FAILSAFE_MS);
 
     return () => {
       cancelled = true;
       cancelAnimationFrame(raf);
-      window.clearTimeout(skipTimer);
+      window.clearTimeout(failsafe);
       // kill, not revert: revert would rewind the tween that owns frame.intro
       // and throw the camera back to the opening shot as this unmounts.
       ctx?.kill();
@@ -168,37 +169,6 @@ export function CinematicIntro() {
       if (done.current) frame.intro = 1;
     };
   }, []);
-
-  const skip = () => {
-    if (done.current) return;
-    done.current = true;
-    gsap.killTweensOf(frame);
-    gsap.to(frame, {
-      intro: 1,
-      duration: 0.5,
-      ease: "power3.inOut",
-      onComplete: () => setState({ phase: "live" }),
-    });
-    if (root.current) gsap.to(root.current, { opacity: 0, duration: 0.35 });
-  };
-
-  // Any deliberate attempt to move on skips. Trapping someone in a film they
-  // did not ask for is hostile.
-  useEffect(() => {
-    if (phase !== "intro") return;
-    const onKey = (e: KeyboardEvent) => {
-      if (["Escape", " ", "Enter", "ArrowDown", "PageDown", "Tab"].includes(e.key)) skip();
-    };
-    const onMove = () => skip();
-    window.addEventListener("keydown", onKey);
-    window.addEventListener("wheel", onMove, { passive: true, once: true });
-    window.addEventListener("touchmove", onMove, { passive: true, once: true });
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      window.removeEventListener("wheel", onMove);
-      window.removeEventListener("touchmove", onMove);
-    };
-  }, [phase]);
 
   if (phase === "live") return null;
 
@@ -244,7 +214,7 @@ export function CinematicIntro() {
 
             <h1
               className="intro-name mt-[7vmin] flex text-[clamp(2rem,7.5vw,5.5rem)] font-medium leading-none text-[color:var(--color-ink)]"
-              style={{ letterSpacing: "0.55em", textIndent: "0.55em" }}
+              style={{ letterSpacing: "0.5em", textIndent: "0.5em" }}
             >
               {Array.from(NAME).map((ch, i) => (
                 <span key={`${ch}-${i}`} className="inline-block opacity-0">
@@ -265,16 +235,6 @@ export function CinematicIntro() {
           </div>
         </div>
       </div>
-
-      {skippable && phase === "intro" && (
-        <button
-          type="button"
-          onClick={skip}
-          className="absolute bottom-7 right-7 t-tech rounded-[var(--radius-machined)] border border-[color:var(--color-line)] bg-[color:var(--color-abyss)]/80 px-4 py-2.5 text-[color:var(--color-muted)] backdrop-blur-sm transition-colors hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-ink)]"
-        >
-          Skip intro
-        </button>
-      )}
     </div>
   );
 }
