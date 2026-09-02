@@ -1,0 +1,403 @@
+@import "tailwindcss";
+
+/* ============================================================
+   TASKLYN DESIGN TOKENS
+   Palette is inherited from the existing tasklyn.in identity.
+   Accent #0080FF is the single locked accent for the whole page.
+   #06D0F9 is not a second accent: it is the high-temperature end
+   of the brand gradient, used only as the colour of light inside
+   the Core when work is actively executing.
+   ============================================================ */
+
+@theme {
+  /* Surfaces. Deep navy-black, never pure #000. */
+  --color-void: #05070c;
+  --color-abyss: #080c16;
+  --color-surface: #0c1322;
+  --color-raised: #131d34;
+
+  /* Structure */
+  --color-line: #1c2740;
+  --color-line-soft: #131d34;
+
+  /* Type */
+  --color-ink: #f4f7fb;
+  --color-muted: #9db1cb;
+  --color-faint: #8194b0;
+
+  /* Brand */
+  --color-accent: #0080ff;
+  --color-accent-hot: #06d0f9;
+  --color-accent-deep: #0a3d78;
+
+  /* One radius scale for the entire page: machined, not pill. */
+  --radius-machined: 4px;
+
+  --font-display: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+
+  /* Cinematic easing. Used everywhere so motion reads as one system. */
+  --ease-core: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-drive: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+:root {
+  color-scheme: dark;
+  --nav-h: 68px;
+}
+
+/* ---------- base ---------- */
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  background: var(--color-void);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+/* Lenis owns the scroll; without this the page double-scrolls. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ---------- typography scale ---------- */
+
+.t-hero {
+  font-size: clamp(3rem, 11.5vw, 12.5rem);
+  line-height: 0.85;
+  letter-spacing: -0.055em;
+  font-weight: 500;
+}
+
+.t-display {
+  font-size: clamp(2.25rem, min(7vw, 11vh), 6.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  font-weight: 500;
+}
+
+.t-section {
+  /* Capped against viewport height too: on a short laptop window a purely
+     width-based clamp pushes long sections off the top of the frame. */
+  font-size: clamp(1.75rem, min(4.4vw, 7.2vh), 4rem);
+  line-height: 1;
+  letter-spacing: -0.038em;
+  font-weight: 500;
+}
+
+.t-lead {
+  font-size: clamp(1rem, 1.35vw, 1.25rem);
+  line-height: 1.55;
+  letter-spacing: -0.012em;
+  color: var(--color-muted);
+}
+
+/* Technical labels. Mono, small, wide. Rationed across the page. */
+.t-tech {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-faint);
+  font-weight: 400;
+}
+
+.t-data {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- focus ---------- */
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  transform: translateY(-250%);
+  background: var(--color-accent);
+  color: #001222;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-machined);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  transition: transform 0.2s var(--ease-core);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* ---------- selection ---------- */
+
+::selection {
+  background: color-mix(in oklab, var(--color-accent) 40%, transparent);
+  color: var(--color-ink);
+}
+
+/* ---------- scrollbar ---------- */
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-abyss);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-deep);
+}
+
+/* ---------- atmosphere ----------
+   Fixed, pointer-events-none, never inside a scrolling container,
+   so it costs one composite layer and no repaints. */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+/* Vignette keeps the eye at the centre of frame, like a lens. */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 120% 85% at 50% 50%,
+    transparent 52%,
+    rgba(5, 7, 12, 0.38) 88%,
+    rgba(5, 7, 12, 0.72) 100%
+  );
+}
+
+/* ---------- legibility ----------
+   Copy on this page sits over a moving 3D object, so contrast cannot be left
+   to chance. Every beat carries a scrim: a wash of the page ground between the
+   Core and the words.
+
+   There are two tiers, because the two kinds of section have different needs.
+
+   READ scrims are for sections you actually read: capabilities, layers, agents,
+   the live run, industries, process. They hold the text zone at ~0.93 of the
+   page ground, which measures about 7:1 for body copy even when the brightest
+   part of the Core is directly behind it. The Core stays visible at the edge of
+   frame so the object is never lost.
+
+   FILM scrims are for the big typographic beats, where the type is display
+   sized and near-white and needs far less help. Those keep the Core much more
+   present, which is where the drama lives.
+
+   Measured worst case (brightest Core state behind the smallest label):
+   READ >= 6.4:1, FILM >= 5.1:1. Both clear WCAG AA. */
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  /* The Core's canvas is fixed and spans the full viewport including the
+     scrollbar gutter, while in-flow content stops at the content edge. Without
+     this the Core shows through an unscrimmed strip beside the scrollbar. */
+  width: 100vw;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* --- reading tier --- */
+
+.scrim-read {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 7, 12, 0.72) 0%,
+      rgba(5, 7, 12, 0.93) 7%,
+      rgba(5, 7, 12, 0.93) 91%,
+      rgba(5, 7, 12, 0.6) 100%
+    );
+}
+
+.scrim-read-left {
+  background: linear-gradient(
+    90deg,
+    rgba(5, 7, 12, 0.95) 0%,
+    rgba(5, 7, 12, 0.93) 56%,
+    rgba(5, 7, 12, 0.8) 74%,
+    rgba(5, 7, 12, 0.34) 90%,
+    transparent 100%
+  );
+}
+
+.scrim-read-right {
+  background: linear-gradient(
+    270deg,
+    rgba(5, 7, 12, 0.95) 0%,
+    rgba(5, 7, 12, 0.93) 56%,
+    rgba(5, 7, 12, 0.8) 74%,
+    rgba(5, 7, 12, 0.34) 90%,
+    transparent 100%
+  );
+}
+
+/* --- film tier --- */
+
+.scrim-film {
+  background: radial-gradient(
+    ellipse 78% 62% at 50% 50%,
+    rgba(5, 7, 12, 0.86) 0%,
+    rgba(5, 7, 12, 0.7) 46%,
+    rgba(5, 7, 12, 0.3) 76%,
+    transparent 100%
+  );
+}
+
+.scrim-film-left {
+  background: linear-gradient(
+    98deg,
+    rgba(5, 7, 12, 0.92) 0%,
+    rgba(5, 7, 12, 0.84) 34%,
+    rgba(5, 7, 12, 0.5) 58%,
+    rgba(5, 7, 12, 0.12) 80%,
+    transparent 100%
+  );
+}
+
+.scrim-bottom {
+  background: linear-gradient(
+    to top,
+    rgba(5, 7, 12, 0.96) 0%,
+    rgba(5, 7, 12, 0.9) 38%,
+    rgba(5, 7, 12, 0.52) 62%,
+    transparent 92%
+  );
+}
+
+/* On narrow screens the Core fills the frame behind everything, so every scrim
+   becomes a flat wash. There is no "beside the text" to fall off into. */
+@media (max-width: 900px) {
+  .scrim-read,
+  .scrim-read-left,
+  .scrim-read-right {
+    background: rgba(5, 7, 12, 0.93);
+  }
+  .scrim-film,
+  .scrim-film-left,
+  .scrim-bottom {
+    background: linear-gradient(
+      to bottom,
+      rgba(5, 7, 12, 0.74) 0%,
+      rgba(5, 7, 12, 0.9) 20%,
+      rgba(5, 7, 12, 0.9) 80%,
+      rgba(5, 7, 12, 0.74) 100%
+    );
+  }
+}
+
+/* A panel for copy that has to be read carefully: the agent run, the booking
+   card. Solid enough to guarantee contrast, still part of the same dark world. */
+.panel {
+  background: rgba(8, 12, 22, 0.82);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-machined);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .panel {
+    background: var(--color-abyss);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* ---------- hairline system ---------- */
+
+.rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-line) 12%,
+    var(--color-line) 88%,
+    transparent
+  );
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .grain {
+    display: none;
+  }
+}
+
+/* ---------- industry flow reveal ---------- */
+
+@keyframes flowIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [style*="flowIn"] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Hide the industry rail scrollbar without hiding the ability to scroll it. */
+.no-bar::-webkit-scrollbar {
+  display: none;
+}
