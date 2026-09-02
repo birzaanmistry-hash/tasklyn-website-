@@ -31,6 +31,22 @@ const NAME = "TASKLYN";
 const READY_FALLBACK_MS = 1500;
 
 /**
+ * GSAP ships with lag smoothing on: any frame gap longer than 500ms is treated
+ * as 33ms of timeline progress, so an animation cannot jump after a stall.
+ *
+ * That default is wrong for an opening title. If the browser throttles frames,
+ * and it will (a background tab, battery saver, a slow phone), a 3.4 second
+ * film at one frame per second takes over a hundred seconds of wall clock and
+ * never reaches its own title card. The visitor sees a still frame and then
+ * gets dumped into the hero by the failsafe, which reads as no intro at all.
+ *
+ * Turning it off makes the timeline honour real elapsed time. A throttled tab
+ * plays the film coarsely rather than not at all, and it always finishes when
+ * it should.
+ */
+gsap.ticker.lagSmoothing(0);
+
+/**
  * Hard failsafe. With no skip control, a stalled timeline would trap the visitor
  * on the title card permanently. A background tab throttles rAF, which is enough
  * to do it. This releases the page on wall-clock time no matter what GSAP is
@@ -52,7 +68,6 @@ export function CinematicIntro() {
     let cancelled = false;
     let ctx: gsap.Context | null = null;
     let solo: gsap.core.Timeline | null = null;
-    let raf = 0;
 
     const finish = () => {
       if (done.current) return;
@@ -145,22 +160,26 @@ export function CinematicIntro() {
     // dependency on purpose: as a dependency the effect re-runs the moment the
     // renderer appears, and its cleanup would kill a timeline the fallback had
     // already started, freezing the film for good.
+    //
+    // On a timer rather than rAF for the same reason lag smoothing is off: a
+    // throttled tab can drop to one frame a second, and the film should not
+    // wait seconds just to notice the renderer is ready.
     const openedAt = performance.now();
     const check = () => {
       if (cancelled || started.current) return;
       if (readState().coreReady || performance.now() - openedAt > READY_FALLBACK_MS) {
+        window.clearInterval(poll);
         begin();
-        return;
       }
-      raf = requestAnimationFrame(check);
     };
-    raf = requestAnimationFrame(check);
+    const poll = window.setInterval(check, 60);
+    check();
 
     const failsafe = window.setTimeout(finish, FAILSAFE_MS);
 
     return () => {
       cancelled = true;
-      cancelAnimationFrame(raf);
+      window.clearInterval(poll);
       window.clearTimeout(failsafe);
       // kill, not revert: revert would rewind the tween that owns frame.intro
       // and throw the camera back to the opening shot as this unmounts.
