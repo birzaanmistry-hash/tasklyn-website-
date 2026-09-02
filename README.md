@@ -71,6 +71,22 @@ carries a **scrim** in one of two tiers, set per section in `ScrollScene`:
 Both clear WCAG AA. If you add a section, give it the right tier rather than
 relying on the Core happening to be dark there.
 
+## The opening sequence
+
+It runs about five and a half seconds and it opens already in motion. An earlier
+cut ran eleven seconds and held on an almost-empty frame for the first second and
+a half; that reads as a site that has not loaded rather than as an establishing
+shot, and it was the main reason people reached for Skip.
+
+It also does not start until `coreReady` is set (in `CoreScene`'s `onCreated`),
+with an 1800ms fallback in case WebGL never initialises. Running the first shots
+while three.js is still downloading spends them on a blank screen.
+
+`CinematicIntro`'s start effect polls the store rather than depending on
+`coreReady` as a React dependency. That is deliberate: a dependency makes the
+effect re-run the instant the renderer appears, and its cleanup would kill a
+timeline the fallback had already started, freezing the film permanently.
+
 ## Accessibility
 
 - `prefers-reduced-motion` replaces the opening film with a still title card,

@@ -143,6 +143,9 @@ export default function CoreScene() {
             gl.setClearColor(new THREE.Color("#05070c"), 0);
             gl.toneMapping = THREE.ACESFilmicToneMapping;
             gl.toneMappingExposure = 1.15;
+            // The opening sequence waits for this. Starting the film before the
+            // renderer exists just burns its first seconds on a blank screen.
+            setState({ coreReady: true });
           }}
         >
           <CoreBody />

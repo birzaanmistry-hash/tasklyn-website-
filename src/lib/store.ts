@@ -38,6 +38,8 @@ export type Phase = "boot" | "intro" | "live";
 
 type Snapshot = {
   phase: Phase;
+  /** True once the renderer exists and the Core can draw its first frame. */
+  coreReady: boolean;
   agent: string | null;
   industry: string;
   reduced: boolean;
@@ -48,6 +50,7 @@ export type Tier = "high" | "mid" | "low";
 
 let snap: Snapshot = {
   phase: "boot",
+  coreReady: false,
   agent: null,
   industry: "ecommerce",
   reduced: false,

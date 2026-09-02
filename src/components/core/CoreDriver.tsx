@@ -41,7 +41,7 @@ export function CoreDriver() {
 
     // --- assembly ------------------------------------------------------
     // The Core builds itself during the opening and stays built afterwards.
-    const assembled = intro >= 1 ? 1 : smoothstep(clamp01((intro - 0.1) / 0.42));
+    const assembled = intro >= 1 ? 1 : smoothstep(clamp01((intro - 0.015) / 0.34));
     U.uAssemble.value += (assembled - U.uAssemble.value) * Math.min(1, dt * 6);
 
     // --- fragmentation --------------------------------------------------

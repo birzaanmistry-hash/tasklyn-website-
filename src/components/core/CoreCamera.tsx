@@ -19,21 +19,23 @@ import { U } from "./uniforms";
 type Shot = { t: number; z: number; fov: number; lookZ: number; drift: number };
 
 /**
- * The opening shot list. Distances are extreme on purpose: 130 units out is far
- * enough that a 4-unit object is a single pixel, which is the whole point of
- * the first shot.
+ * The opening shot list.
+ *
+ * The film opens already in motion. An earlier cut held on an almost-empty
+ * frame for the first second and a half, which reads as a site that has not
+ * loaded rather than as a establishing shot, and it was the main reason people
+ * reached for Skip.
  */
 const INTRO_SHOTS: Shot[] = [
-  { t: 0.0, z: 132, fov: 26, lookZ: 0, drift: 0 }, // the void
-  { t: 0.14, z: 121, fov: 26, lookZ: 0, drift: 0.1 }, // one point, pulsing
-  { t: 0.3, z: 74, fov: 32, lookZ: 0, drift: 0.35 }, // structure implied
-  { t: 0.4, z: 26, fov: 48, lookZ: 0, drift: 0.6 }, // approach
-  { t: 0.46, z: 1.1, fov: 88, lookZ: -3, drift: 0.9 }, // through it
-  { t: 0.51, z: -3.4, fov: 92, lookZ: -8, drift: 0.7 }, // out the far side
-  { t: 0.56, z: 24.5, fov: 40, lookZ: 0, drift: 0.2 }, // pull back, reveal
-  { t: 0.73, z: 21.5, fov: 38, lookZ: 0, drift: 0 }, // frozen, initialising
-  { t: 0.81, z: 20.5, fov: 37, lookZ: 0, drift: 0 }, // collapse
-  { t: 0.91, z: 18.8, fov: 38, lookZ: 0, drift: 0.02 }, // expansion, title
+  { t: 0.0, z: 86, fov: 30, lookZ: 0, drift: 0.18 }, // already moving
+  { t: 0.12, z: 62, fov: 34, lookZ: 0, drift: 0.4 }, // structure resolving
+  { t: 0.3, z: 24, fov: 50, lookZ: 0, drift: 0.72 }, // hard approach
+  { t: 0.42, z: 1.1, fov: 88, lookZ: -3, drift: 0.9 }, // through it
+  { t: 0.5, z: -3.4, fov: 92, lookZ: -8, drift: 0.7 }, // out the far side
+  { t: 0.58, z: 24.5, fov: 40, lookZ: 0, drift: 0.2 }, // pull back, reveal
+  { t: 0.72, z: 21.5, fov: 38, lookZ: 0, drift: 0 }, // still, initialising
+  { t: 0.8, z: 20.5, fov: 37, lookZ: 0, drift: 0 }, // collapse
+  { t: 0.9, z: 18.8, fov: 38, lookZ: 0, drift: 0.02 }, // expansion, title
   { t: 1.0, z: 17.5, fov: 38, lookZ: 0, drift: 0.05 }, // settle into the hero
 ];
 
@@ -48,7 +50,7 @@ function sampleIntro(t: number) {
   // The pass through the Core is the one move that should feel violent, so it
   // gets a hard acceleration curve instead of the house ease.
   const raw = clamp01((p - a.t) / span);
-  const k = i === 3 || i === 4 ? raw * raw * raw : easeCine(raw);
+  const k = i === 2 || i === 3 ? raw * raw * raw : easeCine(raw);
 
   return {
     z: lerp(a.z, b.z, k),
@@ -102,7 +104,7 @@ export function CoreCamera() {
       cam.fov = lerp(s.fov, scrollCam.fov, handover);
 
       // A short kick as the camera punches out of the structure.
-      shake.current = intro > 0.46 && intro < 0.57 && !reduced ? 0.05 : shake.current * 0.86;
+      shake.current = intro > 0.42 && intro < 0.55 && !reduced ? 0.05 : shake.current * 0.86;
     } else {
       // --- scroll-driven journey ---------------------------------------
       _desired.set(scrollCam.px, scrollCam.py, scrollCam.pz);
