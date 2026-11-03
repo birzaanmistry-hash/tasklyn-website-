@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setState } from "@/lib/store";
 import { CoreInteraction } from "./core/CoreInteraction";
 import { Nav } from "./Nav";
@@ -9,6 +9,45 @@ import { CustomCursor } from "./ui/CustomCursor";
 import { SiteFooter } from "./sections/SiteFooter";
 
 const CoreScene = dynamic(() => import("./core/CoreScene"), { ssr: false });
+
+/**
+ * True once the page has finished loading and the browser is idle.
+ *
+ * On a text page the Core is decoration, so it must never compete with the
+ * content for the main thread. It is not even downloaded until the page has
+ * loaded, and not at all for anyone who has asked their browser to save data.
+ */
+function useAfterLoad() {
+  const [go, setGo] = useState(false);
+
+  useEffect(() => {
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    if (conn?.saveData) return;
+
+    let cancelled = false;
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+    };
+
+    const start = () => {
+      const run = () => {
+        if (!cancelled) setGo(true);
+      };
+      if (w.requestIdleCallback) w.requestIdleCallback(run, { timeout: 2500 });
+      else window.setTimeout(run, 1200);
+    };
+
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("load", start);
+    };
+  }, []);
+
+  return go;
+}
 
 /**
  * The frame every page except the home page sits in.
@@ -19,6 +58,8 @@ const CoreScene = dynamic(() => import("./core/CoreScene"), { ssr: false });
  * /contact from a link wants the phone number, not eleven seconds of cinema.
  */
 export function SiteShell({ children }: { children: React.ReactNode }) {
+  const showCore = useAfterLoad();
+
   useEffect(() => {
     // No intro on these pages, and the Core must not read scroll as beats.
     setState({ mode: "ambient", phase: "live" });
@@ -29,7 +70,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
 
   return (
     <CoreInteraction>
-      <CoreScene />
+      {showCore && <CoreScene variant="ambient" />}
 
       <div className="grain" aria-hidden="true" />
       <div className="vignette" aria-hidden="true" />

@@ -28,7 +28,7 @@ const SYSTEMS = ["Intelligence", "Context", "Memory", "Reasoning", "Execution"];
 const NAME = "TASKLYN";
 
 /** If the renderer never arrives (WebGL blocked, slow device), start anyway. */
-const READY_FALLBACK_MS = 1500;
+const READY_FALLBACK_MS = 3000;
 
 /**
  * GSAP ships with lag smoothing on: any frame gap longer than 500ms is treated

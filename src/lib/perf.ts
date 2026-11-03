@@ -46,6 +46,22 @@ export const BUDGET: Record<Tier, Budget> = {
   low: { points: 6000, nodes: 48, struts: 420, paths: 64, shells: 3, dpr: [1, 1.15], bloom: false },
 };
 
+/**
+ * Text pages (services, team, contact, privacy, terms) show the Core as a faint
+ * backdrop behind a ~93% opaque reading scrim. Rendering the full home-page
+ * scene there bought nothing visible and cost several seconds of main-thread
+ * time on a phone, so those pages get a deliberately small one: a fraction of
+ * the points, no nested shells, no strata, one device pixel per CSS pixel.
+ *
+ * There is no "low" entry. On a low-tier device these pages skip the Core
+ * entirely and show the plain dark ground, which is the right trade for a page
+ * whose job is to be read.
+ */
+export const AMBIENT_BUDGET: Record<Exclude<Tier, "low">, Budget> = {
+  high: { points: 7000, nodes: 40, struts: 600, paths: 60, shells: 0, dpr: [1, 1], bloom: false },
+  mid: { points: 4500, nodes: 28, struts: 360, paths: 36, shells: 0, dpr: [1, 1], bloom: false },
+};
+
 export function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;

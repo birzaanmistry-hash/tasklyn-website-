@@ -149,6 +149,34 @@ site's claims change, change `seo.ts` and `llms.txt` in the same commit.
 `robots.txt` is deliberately absent: with none, every crawler is allowed, which
 is the current intent. Add one only as a deliberate decision.
 
+## Performance
+
+Measured with Lighthouse (mobile, the same method before and after):
+
+| | /services before | after | home before | after |
+|---|---|---|---|---|
+| Performance | 67 | 80 | 45 | 62 |
+| Total blocking time | 9,860 ms | 820 ms | 4,240 ms | 770 ms |
+| Longest task | 6,966 ms | 314 ms | 3,557 ms | 283 ms |
+| LCP | 0.8 s | 0.8 s | 6.6 s | 4.8 s |
+
+What changed, and why each part is there:
+
+- **Text pages get a small Core** (`AMBIENT_BUDGET`): about 7k points instead of
+  42k, no nested shells or strata, 1x pixel ratio, rendered on demand at ~30fps.
+  It sits behind a ~93% reading scrim, so the full scene bought nothing visible.
+  On a low-tier device these pages skip it entirely.
+- **It loads after the page does.** `SiteShell` mounts the scene only once the
+  page has loaded and the browser is idle, and never when Save-Data is on.
+- **Shaders compile before the first frame** (`WarmUp`, using `compileAsync`),
+  and the opening film waits for that. Compilation used to land as a long task in
+  the middle of the film.
+- **The nested "infinite" shells are built after the film ends**, not during it.
+
+The home page's LCP is still 4.8 s, and that is the opening film, not a bug: the
+hero headline cannot be the largest paint until the film has finished. Getting it
+lower means changing the film, which is a design decision.
+
 ## Legal pages
 
 `/privacy` and `/terms` are rendered from `src/lib/legal.ts` through the shared

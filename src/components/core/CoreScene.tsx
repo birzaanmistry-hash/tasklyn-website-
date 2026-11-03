@@ -12,8 +12,8 @@ import { CoreSingularity } from "./CoreSingularity";
 import { CoreCamera } from "./CoreCamera";
 import { CoreDriver } from "./CoreDriver";
 import { NestedCores } from "./NestedCores";
-import { BUDGET, detectTier, prefersReducedMotion } from "@/lib/perf";
-import { frame, setState, readState } from "@/lib/store";
+import { AMBIENT_BUDGET, BUDGET, detectTier, prefersReducedMotion } from "@/lib/perf";
+import { frame, setState, readState, useAppState } from "@/lib/store";
 import { progress } from "@/lib/choreography";
 
 /**
@@ -75,9 +75,90 @@ function FrameGovernor() {
   return null;
 }
 
-function CoreBody() {
+export type CoreVariant = "journey" | "ambient";
+
+/**
+ * Ambient pages render on demand and are pushed a frame at a time at ~30fps.
+ * The Core there is a backdrop; running it at 60fps against a reading scrim is
+ * pure waste, and halving the frame rate halves the main-thread cost.
+ */
+function AmbientPacer() {
+  const { invalidate } = useThree();
+  useEffect(() => {
+    const ms = readState().reduced ? 250 : 33;
+    const id = window.setInterval(invalidate, ms);
+    return () => window.clearInterval(id);
+  }, [invalidate]);
+  return null;
+}
+
+/**
+ * Compile every shader before the first frame, and say when it is done.
+ *
+ * Compilation was happening inside the first render, so it landed as one long
+ * task in the middle of the opening film. compileAsync uses the
+ * KHR_parallel_shader_compile extension where it exists, which moves the work
+ * off the main thread entirely. The timeout means a driver that never reports
+ * back cannot strand the page on a blank screen.
+ */
+function WarmUp({ onWarm }: { onWarm: () => void }) {
+  const { gl, scene, camera } = useThree();
+
+  useEffect(() => {
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      onWarm();
+    };
+    const guard = window.setTimeout(finish, 2400);
+
+    if (typeof gl.compileAsync === "function") {
+      gl.compileAsync(scene, camera).then(finish, finish);
+    } else {
+      try {
+        gl.compile(scene, camera);
+      } catch {
+        /* a failed warm-up just means the first frame pays for it, as before */
+      }
+      finish();
+    }
+    return () => window.clearTimeout(guard);
+  }, [gl, scene, camera, onWarm]);
+
+  return null;
+}
+
+/**
+ * The recursion shells are only seen during one beat far down the page, so they
+ * are built after the opening film has finished and the browser is idle, not
+ * while the film is trying to run smoothly.
+ */
+function DeferredNested({ budget }: { budget: (typeof BUDGET)["high"] }) {
+  const { phase } = useAppState();
+  const [on, setOn] = useState(false);
+
+  useEffect(() => {
+    if (phase !== "live" || on) return;
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (w.requestIdleCallback) {
+      const id = w.requestIdleCallback(() => setOn(true), { timeout: 2000 });
+      return () => w.cancelIdleCallback?.(id);
+    }
+    const id = window.setTimeout(() => setOn(true), 800);
+    return () => window.clearTimeout(id);
+  }, [phase, on]);
+
+  return on ? <NestedCores budget={budget} /> : null;
+}
+
+function CoreBody({ variant, onWarm }: { variant: CoreVariant; onWarm: () => void }) {
   const tier = readState().tier;
-  const budget = BUDGET[tier];
+  const ambient = variant === "ambient";
+  const budget = ambient && tier !== "low" ? AMBIENT_BUDGET[tier] : BUDGET[tier];
 
   return (
     <>
@@ -91,19 +172,23 @@ function CoreBody() {
         <CoreLattice budget={budget} />
         <CoreConnections budget={budget} />
         <CoreNodes budget={budget} />
-        <CoreStrata />
+        {!ambient && <CoreStrata />}
         <CoreSingularity />
       </group>
 
-      <NestedCores budget={budget} />
+      {!ambient && <DeferredNested budget={budget} />}
+      {ambient && <AmbientPacer />}
       <FrameGovernor />
+      <WarmUp onWarm={onWarm} />
     </>
   );
 }
 
-export default function CoreScene() {
+export default function CoreScene({ variant = "journey" }: { variant?: CoreVariant }) {
   const [ready, setReady] = useState(false);
+  const [live, setLive] = useState(false);
   const wrap = useRef<HTMLDivElement>(null);
+  const ambient = variant === "ambient";
 
   // Tier and motion preference are decided once, before the scene mounts, so
   // no geometry has to be rebuilt after the first frame.
@@ -118,7 +203,24 @@ export default function CoreScene() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  const dpr = ready ? BUDGET[readState().tier].dpr : ([1, 1.25] as [number, number]);
+  const onWarm = useRef(() => {
+    setLive(true);
+    // The opening sequence waits for this. Starting the film before shaders are
+    // compiled just burns its first seconds on a stalled frame.
+    setState({ coreReady: true });
+  }).current;
+
+  const tier = ready ? readState().tier : "mid";
+
+  // On a low-tier device a text page skips the Core altogether.
+  if (ready && ambient && tier === "low") return null;
+
+  const dpr =
+    ready && ambient && tier !== "low"
+      ? AMBIENT_BUDGET[tier].dpr
+      : ready
+        ? BUDGET[tier].dpr
+        : ([1, 1.25] as [number, number]);
 
   return (
     <div
@@ -131,10 +233,13 @@ export default function CoreScene() {
       {ready && (
         <Canvas
           dpr={dpr}
+          // Nothing draws until the shaders are compiled. After that, the
+          // journey runs every frame and ambient pages are driven by the pacer.
+          frameloop={live ? (ambient ? "demand" : "always") : "never"}
           gl={{
             antialias: false,
             alpha: true,
-            powerPreference: "high-performance",
+            powerPreference: ambient ? "default" : "high-performance",
             stencil: false,
             depth: true,
           }}
@@ -143,12 +248,9 @@ export default function CoreScene() {
             gl.setClearColor(new THREE.Color("#05070c"), 0);
             gl.toneMapping = THREE.ACESFilmicToneMapping;
             gl.toneMappingExposure = 1.15;
-            // The opening sequence waits for this. Starting the film before the
-            // renderer exists just burns its first seconds on a blank screen.
-            setState({ coreReady: true });
           }}
         >
-          <CoreBody />
+          <CoreBody variant={variant} onWarm={onWarm} />
         </Canvas>
       )}
     </div>
