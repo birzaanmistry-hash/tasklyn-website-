@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SiteShell, Wrap } from "@/components/SiteShell";
 import { EmailLink } from "@/components/ui/ContactBits";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { LEGAL, type LegalSection } from "@/lib/legal";
 
 /**
@@ -11,13 +12,15 @@ import { LEGAL, type LegalSection } from "@/lib/legal";
  * the number carries real information.
  */
 export function LegalDoc({
-  eyebrow,
+  crumb,
+  path,
   title,
   intro,
   sections,
   other,
 }: {
-  eyebrow: string;
+  crumb: string;
+  path: string;
   title: string;
   intro: string;
   sections: LegalSection[];
@@ -27,7 +30,7 @@ export function LegalDoc({
     <SiteShell>
       <section className="pt-36 md:pt-44">
         <Wrap>
-          <p className="t-tech">{eyebrow}</p>
+          <Breadcrumbs trail={[{ name: crumb, path }]} />
           <h1 className="t-display mt-6 max-w-[16ch]">{title}</h1>
           <p className="t-lead mt-8 max-w-[60ch]">{intro}</p>
           <p className="t-data mt-6 text-[color:var(--color-faint)]">

@@ -1,22 +1,24 @@
-import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { SiteShell, Wrap } from "@/components/SiteShell";
 import { BookBand } from "@/components/ui/CtaBand";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { EmailLink, InstagramLink, FounderLine } from "@/components/ui/ContactBits";
 import { CONTACT } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Contact",
+export const metadata = pageMeta({
+  title: "Contact Tasklyn AI | Book a 45-Minute AI Discovery Call",
   description:
-    "Talk to Tasklyn. Email tasklynai@gmail.com, call the founders directly, or book a 45-minute discovery call.",
-};
+    "Contact Tasklyn AI by email or phone, or book a 45-minute discovery call on Google Meet. Tell us which function costs your team the most hours. Mumbai, India.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (
     <SiteShell>
       <section className="pt-36 md:pt-44">
         <Wrap>
-          <p className="t-tech">Contact</p>
+          <Breadcrumbs trail={[{ name: "Contact", path: "/contact" }]} />
           <h1 className="t-display mt-6 max-w-[16ch]">
             Tell us what is
             <br />

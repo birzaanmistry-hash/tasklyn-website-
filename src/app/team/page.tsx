@@ -1,14 +1,16 @@
-import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { SiteShell, Wrap } from "@/components/SiteShell";
 import { CtaBand } from "@/components/ui/CtaBand";
 import { FounderLine } from "@/components/ui/ContactBits";
 import { CONTACT, VALUES } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Team",
+export const metadata = pageMeta({
+  title: "Tasklyn AI Team | Birzaan Mistry and Mustufa Kapadia, Mumbai",
   description:
-    "Tasklyn is Birzaan Mistry and Mustufa Kapadia, a two-person team in Mumbai building AI systems for operators.",
-};
+    "Meet the founders of Tasklyn AI, Birzaan Mistry and Mustufa Kapadia, a two-person engineering team in Mumbai building AI systems for those who run businesses.",
+  path: "/team",
+});
 
 export default function TeamPage() {
   return (
@@ -16,7 +18,7 @@ export default function TeamPage() {
       {/* Intro */}
       <section className="pt-36 md:pt-44">
         <Wrap>
-          <p className="t-tech">Team</p>
+          <Breadcrumbs trail={[{ name: "Team", path: "/team" }]} />
           <h1 className="t-display mt-6 max-w-[16ch]">
             Built by engineers,
             <br />

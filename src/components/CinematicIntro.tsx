@@ -231,7 +231,9 @@ export function CinematicIntro() {
               className="intro-mark h-[13vmin] w-[13vmin] min-h-[64px] min-w-[64px] opacity-0"
             />
 
-            <h1
+            {/* A div, not an h1: the page's one real H1 is the hero headline.
+                A second H1 here made every home page carry two. */}
+            <div
               className="intro-name mt-[7vmin] flex text-[clamp(2rem,7.5vw,5.5rem)] font-medium leading-none text-[color:var(--color-ink)]"
               style={{ letterSpacing: "0.5em", textIndent: "0.5em" }}
             >
@@ -240,7 +242,7 @@ export function CinematicIntro() {
                   {ch}
                 </span>
               ))}
-            </h1>
+            </div>
 
             <div
               aria-hidden="true"

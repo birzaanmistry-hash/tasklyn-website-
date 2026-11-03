@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Check } from "@phosphor-icons/react/dist/ssr";
 import { SiteShell, Wrap } from "@/components/SiteShell";
 import { CtaBand } from "@/components/ui/CtaBand";
@@ -10,11 +11,12 @@ import {
   BOOKING_URL,
 } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Services",
+export const metadata = pageMeta({
+  title: "AI Systems for Operations, Sales and Support | Tasklyn AI",
   description:
-    "Tasklyn builds operations, customer response, sales, reporting and custom AI systems. We do not pick a niche. We replace the function.",
-};
+    "Tasklyn AI builds operations, customer response, sales, reporting and custom AI systems. We do not pick a niche. We replace the function. Based in Mumbai.",
+  path: "/services",
+});
 
 /**
  * Services.
@@ -29,7 +31,7 @@ export default function ServicesPage() {
       {/* Hero */}
       <section className="pt-36 md:pt-44">
         <Wrap>
-          <p className="t-tech">Services</p>
+          <Breadcrumbs trail={[{ name: "Services", path: "/services" }]} />
           <h1 className="t-display mt-6 max-w-[17ch]">
             We don&rsquo;t pick a niche.
             <br />

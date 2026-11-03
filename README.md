@@ -130,6 +130,25 @@ using it directly saves a hop.
 If the appointment schedule is ever recreated, the ID changes. Update that one
 constant and every CTA follows.
 
+## SEO and AI-search layer
+
+Everything search engines and AI assistants read lives in `src/lib/seo.ts`:
+`pageMeta()` for title, description, canonical, Open Graph and Twitter in one
+call, and the JSON-LD builders (Organization, WebSite, BreadcrumbList). Every
+page uses `pageMeta()`, so the canonical, OG URL and Twitter card cannot
+disagree. Titles are written to 55 to 60 characters and descriptions to 150 to
+160.
+
+Static assets: `src/app/sitemap.ts` (add a path to `PATHS` when a page ships),
+`public/llms.txt`, `src/app/opengraph-image.tsx` (the share card, built at deploy
+time from the same traced mark), and the favicon and icons in `src/app/`.
+
+Structured data must only state what a visitor can also read on a page. If the
+site's claims change, change `seo.ts` and `llms.txt` in the same commit.
+
+`robots.txt` is deliberately absent: with none, every crawler is allowed, which
+is the current intent. Add one only as a deliberate decision.
+
 ## Legal pages
 
 `/privacy` and `/terms` are rendered from `src/lib/legal.ts` through the shared

@@ -18,19 +18,19 @@ const geistMono = Geist_Mono({
   weight: ["400", "500"],
 });
 
-const title = "Tasklyn / AI systems that run the work inside your business";
+const title = "Tasklyn AI | Custom AI Systems for Your Business Operations";
 const description =
-  "Tasklyn builds AI-native systems that understand, decide and execute the work inside your business. One Core, built around your workflows.";
+  "Tasklyn AI builds custom AI systems that handle the repetitive work inside your business, from customer replies to operations. Based in Mumbai, India.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://tasklyn.in"),
   title: {
     default: title,
-    template: "%s / Tasklyn",
+    template: "%s | Tasklyn AI",
   },
   description,
-  applicationName: "Tasklyn",
-  authors: [{ name: "Tasklyn" }],
+  applicationName: "Tasklyn AI",
+  authors: [{ name: "Tasklyn AI" }],
   keywords: [
     "AI systems",
     "AI agents",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     title,
     description,
     url: "https://tasklyn.in",
-    siteName: "Tasklyn",
+    siteName: "Tasklyn AI",
     type: "website",
     locale: "en_IN",
   },
