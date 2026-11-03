@@ -65,7 +65,7 @@ export function ProcessPipeline() {
           className="mt-8 grid gap-x-8 gap-y-9 sm:grid-cols-2 lg:grid-cols-5"
         >
           {PROCESS.map((s) => (
-            <li key={s.n}>
+            <li key={s.n} data-reveal>
               <span data-mark className="t-tech block transition-colors duration-500">
                 {s.n}
               </span>

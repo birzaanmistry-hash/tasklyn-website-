@@ -81,6 +81,12 @@ html.lenis body {
 
 /* ---------- typography scale ---------- */
 
+.t-hero,
+.t-display,
+.t-section {
+  text-wrap: balance;
+}
+
 .t-hero {
   font-size: clamp(3rem, 11.5vw, 12.5rem);
   line-height: 0.85;
@@ -127,6 +133,17 @@ html.lenis body {
   font-size: 0.8125rem;
   letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
+}
+
+/* ---------- safe areas ----------
+   On notched and home-indicator phones, fixed bars have to clear the insets or
+   the logo sits under the status bar. */
+
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* ---------- focus ---------- */
@@ -311,22 +328,65 @@ html.lenis body {
 /* On narrow screens the Core fills the frame behind everything, so every scrim
    becomes a flat wash. There is no "beside the text" to fall off into. */
 @media (max-width: 900px) {
+  /* READ: sections that carry paragraphs. Strongly opaque, because body copy
+     over a moving object is the one place contrast cannot be negotiated. The
+     Core still shows at the very top and bottom of each screen. */
   .scrim-read,
   .scrim-read-left,
   .scrim-read-right {
-    background: rgba(5, 7, 12, 0.93);
-  }
-  .scrim-film,
-  .scrim-film-left,
-  .scrim-bottom {
     background: linear-gradient(
       to bottom,
-      rgba(5, 7, 12, 0.74) 0%,
-      rgba(5, 7, 12, 0.9) 20%,
-      rgba(5, 7, 12, 0.9) 80%,
-      rgba(5, 7, 12, 0.74) 100%
+      rgba(5, 7, 12, 0.78) 0%,
+      rgba(5, 7, 12, 0.92) 14%,
+      rgba(5, 7, 12, 0.92) 86%,
+      rgba(5, 7, 12, 0.78) 100%
     );
   }
+
+  /* FILM: display-size type, only a few words. Lighter on purpose, so the Core,
+     which is the whole point of these beats, can actually be seen. Large
+     near-white type holds well above 3:1 against it. */
+  .scrim-film,
+  .scrim-film-left {
+    background: linear-gradient(
+      to bottom,
+      rgba(5, 7, 12, 0.5) 0%,
+      rgba(5, 7, 12, 0.66) 50%,
+      rgba(5, 7, 12, 0.5) 100%
+    );
+  }
+
+  /* HERO: the Core fills the top of the screen, the copy sits on solid ground
+     below it. */
+  .scrim-bottom {
+    background: linear-gradient(
+      to top,
+      rgba(5, 7, 12, 0.97) 0%,
+      rgba(5, 7, 12, 0.92) 38%,
+      rgba(5, 7, 12, 0.5) 60%,
+      rgba(5, 7, 12, 0) 84%
+    );
+  }
+}
+
+/* On a phone the beats scroll like an ordinary page. The scroll-driven fades
+   that suit a pinned desktop scene would leave rows stuck at 20% opacity, so
+   anything marked data-reveal resolves fully. */
+.compact-flow [data-reveal],
+.compact-flow [data-reveal] * {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.compact-flow [data-reveal] [data-dot] {
+  background: var(--color-accent-hot) !important;
+}
+.compact-flow [data-reveal] [data-mark] {
+  color: var(--color-accent) !important;
+}
+/* A live counter that tracks scroll progress means nothing when the whole list
+   is already shown. */
+.compact-flow [data-compact-hide] {
+  display: none;
 }
 
 /* A panel for copy that has to be read carefully: the agent run, the booking

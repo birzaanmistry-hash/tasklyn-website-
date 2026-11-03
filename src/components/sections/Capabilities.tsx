@@ -57,14 +57,18 @@ export function Capabilities() {
           {CAPABILITIES.map((c) => (
             <li
               key={c.id}
+              data-reveal
               className="border-b border-[color:var(--color-line)] py-[1.15rem] will-change-transform"
             >
               {/* Category and the systems it touches share one line: the row
                   reads as a heading with its own footnote instead of costing
                   four separate lines of vertical space. */}
-              <div className="flex items-baseline justify-between gap-4">
+              {/* flex-wrap, and no shrink-0: on a 360px phone this long mono string
+                  sat beside the label, forced the row to ~392px wide, and widened
+                  the whole document. It now drops to its own line instead. */}
+              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <p className="t-tech">{c.label}</p>
-                <p className="t-data shrink-0 text-[0.75rem] text-[color:var(--color-accent)]">
+                <p className="t-data text-[0.75rem] text-[color:var(--color-accent)]">
                   {c.runs}
                 </p>
               </div>

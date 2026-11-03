@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { beat, window01 } from "@/lib/choreography";
 import { frame } from "@/lib/store";
+import { useCompact } from "@/lib/useCompact";
 
 /**
  * "read" tiers hold the text zone near-opaque for sections you actually read.
@@ -16,9 +17,6 @@ export type Scrim =
   | "film-left"
   | "bottom"
   | "none";
-
-/** Below this width the page uses the compact composition. */
-const COMPACT = "(max-width: 900px)";
 
 /**
  * One beat of the film.
@@ -43,6 +41,7 @@ export function ScrollScene({
   children,
   className = "",
   align = "center",
+  compactAlign,
   scrim = "film",
   fadeIn = 0.14,
   fadeOut = 0.14,
@@ -52,21 +51,15 @@ export function ScrollScene({
   children: React.ReactNode;
   className?: string;
   align?: "center" | "start" | "end";
+  /** Vertical alignment on phones, where it can differ from the pinned desktop beat. */
+  compactAlign?: "center" | "start" | "end";
   scrim?: Scrim;
   fadeIn?: number;
   fadeOut?: number;
 }) {
   const inner = useRef<HTMLDivElement>(null);
-  const [compact, setCompact] = useState(false);
+  const compact = useCompact();
   const b = beat(beatId);
-
-  useEffect(() => {
-    const mq = window.matchMedia(COMPACT);
-    const apply = () => setCompact(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
 
   useEffect(() => {
     // In the compact composition the copy is always fully opaque. Fading text
@@ -107,21 +100,23 @@ export function ScrollScene({
     return () => cancelAnimationFrame(raf);
   }, [b.from, b.to, fadeIn, fadeOut, compact]);
 
-  const items =
-    align === "center" ? "items-center" : align === "end" ? "items-end" : "items-start";
+  const pick = (a: "center" | "start" | "end") =>
+    a === "center" ? "items-center" : a === "end" ? "items-end" : "items-start";
+  const items = pick(align);
+  const compactItems = pick(compactAlign ?? "center");
 
   return (
     <section
       id={id}
       data-beat={beatId}
       className="relative"
-      style={compact ? { minHeight: "100dvh" } : { height: `${b.vh * 100}vh` }}
+      style={compact ? { minHeight: "100svh" } : { height: `${b.vh * 100}vh` }}
     >
       <div
         ref={inner}
         className={
           compact
-            ? `relative z-10 flex min-h-[100dvh] w-full items-center ${className}`
+            ? `compact-flow relative z-10 flex min-h-[100svh] w-full ${compactItems} ${className}`
             : `fixed inset-0 z-10 flex ${items} ${className}`
         }
         style={compact ? undefined : { opacity: 0, visibility: "hidden", pointerEvents: "none" }}

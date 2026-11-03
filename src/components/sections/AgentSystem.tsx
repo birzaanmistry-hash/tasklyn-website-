@@ -76,7 +76,7 @@ export function AgentSystem() {
             {AGENTS.map((a) => {
               const on = a.id === active;
               return (
-                <li key={a.id} className="border-b border-[color:var(--color-line)]">
+                <li key={a.id} data-reveal className="border-b border-[color:var(--color-line)]">
                   <button
                     type="button"
                     onPointerEnter={() => setHover(a.id)}
@@ -85,7 +85,7 @@ export function AgentSystem() {
                     onBlur={() => setHover(null)}
                     onClick={() => setState({ agent: a.id })}
                     aria-pressed={on}
-                    className="group flex w-full items-baseline gap-5 py-4 text-left transition-colors duration-300"
+                    className="group grid w-full grid-cols-[6.25rem_minmax(0,1fr)] items-baseline gap-x-4 py-4 text-left transition-colors duration-300 md:flex md:gap-5"
                   >
                     <span
                       className="text-[1.0625rem] font-medium tracking-[-0.02em] transition-colors duration-300"

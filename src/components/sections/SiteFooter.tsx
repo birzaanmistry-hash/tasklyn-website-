@@ -14,7 +14,7 @@ import { EmailLink, InstagramLink } from "../ui/ContactBits";
  */
 export function SiteFooter() {
   return (
-    <footer className="relative z-10 border-t border-[color:var(--color-line)] bg-[color:var(--color-abyss)]">
+    <footer className="safe-bottom relative z-10 border-t border-[color:var(--color-line)] bg-[color:var(--color-abyss)]">
       <div className="mx-auto w-full max-w-[1400px] px-6 py-16 md:px-10 lg:px-14">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
@@ -64,13 +64,13 @@ export function SiteFooter() {
           <nav aria-label="Legal" className="flex items-center gap-7">
             <a
               href="/privacy"
-              className="text-[0.8125rem] text-[color:var(--color-muted)] transition-colors hover:text-[color:var(--color-ink)]"
+              className="inline-flex min-h-11 items-center text-[0.8125rem] text-[color:var(--color-muted)] transition-colors hover:text-[color:var(--color-ink)]"
             >
               Privacy
             </a>
             <a
               href="/terms"
-              className="text-[0.8125rem] text-[color:var(--color-muted)] transition-colors hover:text-[color:var(--color-ink)]"
+              className="inline-flex min-h-11 items-center text-[0.8125rem] text-[color:var(--color-muted)] transition-colors hover:text-[color:var(--color-ink)]"
             >
               Terms
             </a>

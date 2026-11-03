@@ -66,7 +66,7 @@ export function LiveRun() {
 
         <ol ref={list} className="mt-12">
           {LIVE_RUN.map((e, i) => (
-            <li key={e.t} className="relative flex gap-6 pb-8 last:pb-0">
+            <li key={e.t} data-reveal className="relative flex gap-6 pb-8 last:pb-0">
               {i < LIVE_RUN.length - 1 && (
                 <span
                   aria-hidden="true"
@@ -96,6 +96,7 @@ export function LiveRun() {
           ref={clock}
           role="status"
           aria-live="polite"
+          data-compact-hide
           className="t-tech mt-10 text-[color:var(--color-muted)]"
         >
           0 of {LIVE_RUN.length} complete

@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
-import { sampleCamera, clamp01, easeCine, lerp } from "@/lib/choreography";
+import { sampleCamera, clamp01, easeCine, lerp, smoothstep, progress } from "@/lib/choreography";
 import { frame, readState } from "@/lib/store";
 import { U } from "./uniforms";
 
@@ -62,6 +62,31 @@ function sampleIntro(t: number) {
 
 const _target = new THREE.Vector3();
 const _desired = new THREE.Vector3();
+const _scrollPos = new THREE.Vector3();
+
+/**
+ * How portrait the screen is: 0 on a landscape or square screen, rising to 1 on
+ * a tall phone.
+ *
+ * The whole camera path was authored for a landscape screen. On a 390x844 phone
+ * the same distance leaves the Core wider than the screen, so what you see is a
+ * cropped slab of dots rather than an object.
+ */
+const portraitness = (aspect: number) => (aspect >= 1 ? 0 : clamp01((1 - aspect) / 0.58));
+
+/**
+ * Pull the camera back, in proportion to how portrait the screen is, so the
+ * whole Core fits across the narrow axis.
+ *
+ * Only while the camera is outside the shell. Inside it (the live-execution
+ * beat) pulling back would put the camera outside the very object it is meant
+ * to be inside, so those shots are left alone.
+ */
+function fitPortrait(pos: THREE.Vector3, p: number) {
+  if (p <= 0) return;
+  const outside = smoothstep((pos.length() - 4.6) / 4.4);
+  pos.multiplyScalar(1 + p * 0.62 * outside);
+}
 
 export function CoreCamera() {
   const { camera } = useThree();
@@ -102,6 +127,12 @@ export function CoreCamera() {
     const intro = st.phase === "live" ? 1 : frame.intro;
     const scrollCam = sampleCamera(frame.scroll);
 
+    const port = portraitness(cam.aspect);
+    // On a phone the hero copy sits in the lower half of the screen, so the
+    // Core is framed in the upper half: the camera aims a little below it.
+    // That bias dies away as the hero scrolls out of view.
+    const heroBias = port * (1 - smoothstep(progress(frame.scroll, "hero") * 1.6)) * 3;
+
     if (intro < 1) {
       // --- opening sequence -------------------------------------------
       const s = sampleIntro(intro);
@@ -115,26 +146,27 @@ export function CoreCamera() {
         s.z
       );
       _target.set(0, 0, s.lookZ);
+      fitPortrait(_desired, port);
 
       // Blend into the scroll path over the last 12% so the handover is soft.
       const handover = clamp01((intro - 0.93) / 0.07);
       if (handover > 0) {
-        _desired.lerp(
-          _target.set(scrollCam.px, scrollCam.py, scrollCam.pz).clone(),
-          handover
-        );
-        _target.set(scrollCam.lx, scrollCam.ly, scrollCam.lz);
+        _scrollPos.set(scrollCam.px, scrollCam.py, scrollCam.pz);
+        fitPortrait(_scrollPos, port);
+        _desired.lerp(_scrollPos, handover);
+        _target.set(scrollCam.lx, scrollCam.ly - heroBias, scrollCam.lz);
       }
 
       cam.position.copy(_desired);
-      cam.fov = lerp(s.fov, scrollCam.fov, handover);
+      cam.fov = lerp(s.fov, scrollCam.fov * (1 + port * 0.2), handover);
 
       // A short kick as the camera punches out of the structure.
       shake.current = intro > 0.42 && intro < 0.55 && !reduced ? 0.05 : shake.current * 0.86;
     } else {
       // --- scroll-driven journey ---------------------------------------
       _desired.set(scrollCam.px, scrollCam.py, scrollCam.pz);
-      _target.set(scrollCam.lx, scrollCam.ly, scrollCam.lz);
+      fitPortrait(_desired, port);
+      _target.set(scrollCam.lx, scrollCam.ly - heroBias, scrollCam.lz);
 
       // Parallax. The camera leans with the pointer, which is what makes the
       // page feel like a space instead of a flat surface. Never enough to
@@ -152,7 +184,7 @@ export function CoreCamera() {
       // Critically damped follow, so the camera has weight.
       const k = 1 - Math.pow(0.0015, dt);
       cam.position.lerp(_desired, k);
-      cam.fov += (scrollCam.fov - cam.fov) * k;
+      cam.fov += (scrollCam.fov * (1 + port * 0.2) - cam.fov) * k;
       shake.current *= 0.9;
     }
 

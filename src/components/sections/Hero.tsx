@@ -56,7 +56,7 @@ export function Hero() {
   }, [phase]);
 
   return (
-    <ScrollScene id="top" beatId="hero" align="end" scrim="bottom" fadeIn={0}>
+    <ScrollScene id="top" beatId="hero" align="end" compactAlign="end" scrim="bottom" fadeIn={0}>
       <div
         ref={root}
         className="pb-[9vh] pt-24 transition-opacity duration-500"

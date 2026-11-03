@@ -20,7 +20,7 @@ export function Footer() {
   return (
     <footer
       id="contact"
-      className="relative z-10 border-t border-[color:var(--color-line)] bg-[color:var(--color-abyss)]"
+      className="safe-bottom relative z-10 border-t border-[color:var(--color-line)] bg-[color:var(--color-abyss)]"
     >
       <div className="mx-auto w-full max-w-[1400px] px-6 py-20 md:px-10 md:py-28 lg:px-14">
         <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] lg:gap-24">
@@ -113,13 +113,13 @@ export function Footer() {
           <nav aria-label="Legal" className="flex items-center gap-7">
             <a
               href="/privacy"
-              className="text-[0.8125rem] text-[color:var(--color-muted)] transition-colors hover:text-[color:var(--color-ink)]"
+              className="inline-flex min-h-11 items-center text-[0.8125rem] text-[color:var(--color-muted)] transition-colors hover:text-[color:var(--color-ink)]"
             >
               Privacy
             </a>
             <a
               href="/terms"
-              className="text-[0.8125rem] text-[color:var(--color-muted)] transition-colors hover:text-[color:var(--color-ink)]"
+              className="inline-flex min-h-11 items-center text-[0.8125rem] text-[color:var(--color-muted)] transition-colors hover:text-[color:var(--color-ink)]"
             >
               Terms
             </a>

@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { ScrollScene } from "../ui/ScrollScene";
 import { frame } from "@/lib/store";
 import { progress, clamp01 } from "@/lib/choreography";
+import { useCompact } from "@/lib/useCompact";
 
 /**
  * The dive.
@@ -12,13 +13,20 @@ import { progress, clamp01 } from "@/lib/choreography";
  * through every one of them. There is almost no copy here on purpose: the
  * moment is doing the talking, and words would only tell the visitor what they
  * are already looking at.
+ *
+ * On a phone the section scrolls normally rather than being pinned for a whole
+ * dive, so there is no moment for the two statements to hand over in. They are
+ * shown together, which also means the section is never blank.
  */
 export function InfiniteCore() {
+  const compact = useCompact();
   const down = useRef<HTMLParagraphElement>(null);
   const up = useRef<HTMLParagraphElement>(null);
   const readout = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
+    if (compact) return;
+
     let raf = 0;
     const loop = () => {
       const p = progress(frame.scroll, "infinite");
@@ -40,7 +48,23 @@ export function InfiniteCore() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [compact]);
+
+  if (compact) {
+    return (
+      <ScrollScene beatId="infinite" align="center" scrim="film">
+        <div className="py-10 text-center">
+          <p className="t-display mx-auto max-w-[14ch]">
+            Every system holds another.
+          </p>
+          <p className="t-display mx-auto mt-7 max-w-[14ch]">
+            All of it is{" "}
+            <span className="text-[color:var(--color-accent)]">one machine.</span>
+          </p>
+        </div>
+      </ScrollScene>
+    );
+  }
 
   return (
     <ScrollScene beatId="infinite" align="center" scrim="film">

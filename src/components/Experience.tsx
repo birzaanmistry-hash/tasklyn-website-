@@ -18,6 +18,7 @@ import { InfiniteCore } from "./sections/InfiniteCore";
 import { ProcessPipeline } from "./sections/ProcessPipeline";
 import { Kinetic } from "./sections/Kinetic";
 import { FinalCTA } from "./sections/FinalCTA";
+import { HomeAnswers } from "./sections/HomeAnswers";
 import { Footer } from "./sections/Footer";
 
 /**
@@ -60,6 +61,7 @@ export function Experience() {
         <FinalCTA />
       </main>
 
+      <HomeAnswers />
       <Footer />
     </CoreInteraction>
   );

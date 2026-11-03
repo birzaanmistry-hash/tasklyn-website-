@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { ScrollScene } from "../ui/ScrollScene";
 import { frame } from "@/lib/store";
 import { progress, clamp01 } from "@/lib/choreography";
+import { useCompact } from "@/lib/useCompact";
 
 /**
  * Stop automating tasks. Start building systems.
@@ -92,6 +93,29 @@ function Line({
 
 export function Kinetic() {
   const vectors = useGlyphVectors(40);
+  const compact = useCompact();
+
+  // The letters travelling from one sentence to the other needs a pinned scene
+  // to play out in. On a phone the section scrolls normally, so it is a plain
+  // before and after instead: the old sentence greyed back, the new one lit.
+  if (compact) {
+    return (
+      <ScrollScene beatId="kinetic" align="center" scrim="film">
+        <div className="py-10">
+          <h2 className="sr-only">Stop automating tasks. Start building systems.</h2>
+          <p aria-hidden="true" className="t-display max-w-[13ch] text-[color:var(--color-muted)]">
+            Stop automating tasks.
+          </p>
+          <p
+            aria-hidden="true"
+            className="t-display mt-7 max-w-[13ch] text-[color:var(--color-accent)]"
+          >
+            Start building systems.
+          </p>
+        </div>
+      </ScrollScene>
+    );
+  }
 
   return (
     <ScrollScene beatId="kinetic" align="center" scrim="film" fadeIn={0.08} fadeOut={0.08}>

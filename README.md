@@ -105,6 +105,28 @@ timeline the fallback had already started, freezing the film permanently.
 - Zoom is not locked and focus is visible throughout.
 - Every off-site CTA is marked "opens in a new tab" for screen readers.
 
+## Mobile
+
+Below 900px the home page uses its own composition, not a shrunken desktop.
+Beats scroll like a normal page instead of being pinned (`ScrollScene` adds a
+`compact-flow` class), and everything is checked at 360, 390, 430 and 768px.
+
+- **Scroll-driven fades resolve fully.** Rows marked `data-reveal` are forced to
+  full opacity in compact mode by `.compact-flow` in `globals.css`. Without it,
+  lists stayed stuck at 20% opacity, because a fade that needs a pinned scene to
+  play out never completes on a page that just scrolls. When you add a new
+  scroll-revealed row, give it `data-reveal`.
+- **Sections whose second half is a scroll-driven handover** (`Rewire`,
+  `InfiniteCore`, `Kinetic`) render a static before and after via `useCompact()`.
+- **The Core has to be seen.** Large-type beats use a light scrim on phones; only
+  the sections that carry paragraphs keep the heavy one.
+- **The camera is portrait-aware** (`portraitness`, `fitPortrait` in
+  `CoreCamera.tsx`): it pulls back on tall screens so the whole Core fits across
+  the narrow axis, and frames it in the upper half while the hero copy sits
+  below. Inside the shell it is left alone.
+- Safe-area insets for notched phones (`viewportFit: "cover"`, `.safe-top`,
+  `.safe-bottom`), 44px minimum touch targets, and balanced headings.
+
 ## Performance
 
 Geometry is generated once from a deterministic PRNG, so the Core is identical on

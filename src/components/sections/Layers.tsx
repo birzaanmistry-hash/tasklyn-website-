@@ -51,6 +51,7 @@ export function Layers() {
           {LAYERS.map((l) => (
             <li
               key={l.id}
+              data-reveal
               className="border-b border-[color:var(--color-line)] py-[1.1rem] will-change-transform"
             >
               <div className="flex items-baseline justify-between gap-6">

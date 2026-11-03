@@ -59,7 +59,7 @@ export function Nav() {
       }}
     >
       <div
-        className="transition-all duration-500"
+        className="safe-top transition-all duration-500"
         style={{
           background: condensed ? "rgba(8, 12, 22, 0.62)" : "transparent",
           backdropFilter: condensed ? "blur(14px) saturate(140%)" : "none",
@@ -116,7 +116,7 @@ export function Nav() {
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
               aria-controls="mobile-nav"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-[var(--radius-machined)] border border-[color:var(--color-line)] lg:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-machined)] border border-[color:var(--color-line)] lg:hidden"
             >
               <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
               <span aria-hidden="true" className="relative block h-3 w-4">

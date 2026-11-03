@@ -60,6 +60,9 @@ export const viewport: Viewport = {
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
+  // Lets the page draw under the notch; the safe-area utilities then keep the
+  // fixed bars clear of it.
+  viewportFit: "cover",
   // Zoom stays available. Locking it is an accessibility failure, and this page
   // has small technical type in places.
   maximumScale: 5,
