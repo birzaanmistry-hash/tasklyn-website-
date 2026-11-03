@@ -130,9 +130,17 @@ using it directly saves a hop.
 If the appointment schedule is ever recreated, the ID changes. Update that one
 constant and every CTA follows.
 
-## What still needs writing
+## Legal pages
 
-`/privacy` and `/terms` are linked in the footer but the pages do not exist yet.
+`/privacy` and `/terms` are rendered from `src/lib/legal.ts` through the shared
+`LegalDoc` layout. The privacy policy describes what the code actually does: no
+cookies, no browser storage, no analytics or advertising scripts, self-hosted
+fonts, and a contact form that composes a `mailto` rather than posting anywhere.
+**If any of that changes, update `legal.ts` in the same commit**, otherwise the
+policy becomes inaccurate.
+
+Both documents carry a "last updated" date in `LEGAL.updated`. Bump it when the
+wording changes.
 
 ## Deliberately absent
 

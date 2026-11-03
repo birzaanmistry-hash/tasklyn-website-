@@ -126,7 +126,7 @@ export function Footer() {
           </nav>
 
           <p className="text-[0.8125rem] text-[color:var(--color-faint)]">
-            &copy; {new Date().getFullYear()} Tasklyn
+            &copy; {new Date().getFullYear()} Tasklyn AI. All rights reserved.
           </p>
         </div>
       </div>
