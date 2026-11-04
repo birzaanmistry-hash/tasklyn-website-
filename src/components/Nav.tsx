@@ -82,7 +82,7 @@ export function Nav() {
             <span className="text-[0.9375rem] font-medium tracking-[0.14em]">TASKLYN</span>
           </Link>
 
-          <ul className="hidden items-center gap-9 lg:flex">
+          <ul className="hidden items-center gap-6 xl:gap-9 lg:flex">
             {NAV.map((n) => {
               const on = pathname === n.href;
               return (

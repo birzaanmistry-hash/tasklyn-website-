@@ -1,10 +1,12 @@
 # Tasklyn AI
 
-> Tasklyn AI builds custom AI systems that handle the repetitive work inside a business, from replying to customers to running operations. It is a two-person engineering team based in Mumbai, India, working with clients anywhere.
+> Tasklyn AI is an AI-native product studio based in Mumbai, India. It engineers custom enterprise AI systems for clients and is exploring specialised software products for recurring enterprise problems. Built around problems. Engineered for scale.
 
-Tasklyn does not pick a niche. It takes one function that is consuming a team's hours and builds a system that does it, inside the tools the business already uses.
+Tasklyn is a two-person engineering team. It works with mid-sized and large organisations with complex operational workflows, including manufacturers, exporters, and finance and procurement teams, starting with India.
 
-## What Tasklyn builds
+## Custom enterprise AI systems (current client work)
+
+Tasklyn takes one function that is consuming a team's hours and engineers a system that does it, inside the tools the business already uses.
 
 - Operations systems: scheduling, orders, records and reporting handled without manual entry.
 - Customer response systems: replies on WhatsApp, email and web chat, using the business's own pricing and history.
@@ -12,21 +14,29 @@ Tasklyn does not pick a niche. It takes one function that is consuming a team's 
 - Reporting and insight systems: recurring reports assembled from the tools a business already runs.
 - Custom builds: systems scoped to a single, specific process.
 
-## How an engagement works
+## Products Tasklyn is building
+
+These are product directions, not available products. Each one is currently at the Exploring stage: the problem is being explored and nothing is available to use yet.
+
+- Export Intelligence (international trade intelligence): helping exporters find opportunities, discover and qualify buyers, and manage export enquiries and sales.
+- Finance Intelligence (financial operations): invoice intelligence, document extraction, purchase order matching, receivables monitoring and approvals.
+- Procurement Intelligence (procurement technology): supplier quotations, comparison, sourcing decisions and procurement workflows.
+
+Tasklyn's product approach is four stages: identify an expensive, recurring problem; validate it with prospective customers; engineer the software; then scale validated solutions into independent products.
+
+## How client work runs
 
 1. Identify: find the repetitive loop that costs the most hours.
 2. Engineer: build against the business's real data, tools and edge cases, and test on work that has already happened.
 3. Hand off: go live, train the team to steer it, and stay on to tune it as the business changes.
 
-## Who it is for
-
-Businesses that have repetitive, rule-based work being done by hand, such as in e-commerce, real estate, healthcare, education, manufacturing, hospitality, professional services and retail.
-
 ## Pages
 
 - [Home](https://tasklyn.in/): the Tasklyn overview.
-- [Services](https://tasklyn.in/services): the five kinds of system, how Tasklyn works, and the loops it replaces by industry.
-- [Team](https://tasklyn.in/team): the founders, Birzaan Mistry and Mustufa Kapadia.
+- [Solutions](https://tasklyn.in/services): custom enterprise AI systems and the loops Tasklyn replaces by industry.
+- [Products](https://tasklyn.in/products): the product portfolio, each product's status, and the product thesis.
+- [Technology](https://tasklyn.in/technology): the engineering capabilities and approach behind the systems and products.
+- [About](https://tasklyn.in/team): the founders, Birzaan Mistry and Mustufa Kapadia.
 - [Contact](https://tasklyn.in/contact): email, phone and booking.
 - [Privacy policy](https://tasklyn.in/privacy)
 - [Terms of use](https://tasklyn.in/terms)

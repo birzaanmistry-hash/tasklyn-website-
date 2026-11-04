@@ -18,9 +18,9 @@ const geistMono = Geist_Mono({
   weight: ["400", "500"],
 });
 
-const title = "Tasklyn AI | Custom AI Systems for Your Business Operations";
+const title = "Tasklyn AI | AI-Native Product Studio for Enterprise Systems";
 const description =
-  "Tasklyn AI builds custom AI systems that handle the repetitive work inside your business, from customer replies to operations. Based in Mumbai, India.";
+  "Tasklyn AI is an AI-native product studio. We engineer custom enterprise AI systems and build specialised software products for complex business problems.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://tasklyn.in"),
@@ -32,11 +32,11 @@ export const metadata: Metadata = {
   applicationName: "Tasklyn AI",
   authors: [{ name: "Tasklyn AI" }],
   keywords: [
-    "AI systems",
-    "AI agents",
-    "business automation",
-    "workflow intelligence",
-    "AI operations",
+    "AI-native product studio",
+    "enterprise AI solutions",
+    "custom AI systems",
+    "AI product development",
+    "enterprise intelligence",
     "Mumbai",
   ],
   openGraph: {

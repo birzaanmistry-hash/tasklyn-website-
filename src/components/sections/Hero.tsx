@@ -6,6 +6,7 @@ import { useAppState } from "@/lib/store";
 import { ScrollScene } from "../ui/ScrollScene";
 import { MagneticButton } from "../ui/MagneticButton";
 import { BOOKING_URL, CTA_PRIMARY } from "@/lib/content";
+import { STUDIO } from "@/lib/studio";
 
 /**
  * The hero.
@@ -68,29 +69,26 @@ export function Hero() {
         }}
         aria-hidden={phase !== "live"}
       >
-        <h1 className="t-hero max-w-[15ch]">
-          <span className="hero-line block overflow-hidden pb-[0.06em]">
-            <span className="block will-change-transform">Business,</span>
+        <h1 className="t-hero max-w-[24ch]">
+          <span className="hero-line block overflow-hidden pb-[0.08em]">
+            <span className="block will-change-transform">Engineering intelligence.</span>
           </span>
-          <span className="hero-line block overflow-hidden pb-[0.06em]">
+          <span className="hero-line block overflow-hidden pb-[0.08em]">
             <span className="block will-change-transform text-[color:var(--color-accent)]">
-              rewired.
+              Building what comes next.
             </span>
           </span>
         </h1>
 
         <div className="mt-9 flex flex-col gap-9 lg:flex-row lg:items-end lg:justify-between">
-          <p className="hero-sub t-lead max-w-[46ch] opacity-0">
-            Tasklyn builds AI-native systems that understand, decide and execute the work
-            inside your business.
-          </p>
+          <p className="hero-sub t-lead max-w-[52ch] opacity-0">{STUDIO.definition}</p>
 
           <div className="flex flex-wrap items-center gap-3">
             <MagneticButton href={BOOKING_URL} className="hero-cta opacity-0">
               {CTA_PRIMARY}
             </MagneticButton>
-            <MagneticButton href="#layers" variant="ghost" className="hero-cta opacity-0">
-              Explore the Core
+            <MagneticButton href="/products" variant="ghost" className="hero-cta opacity-0">
+              See our products
             </MagneticButton>
           </div>
         </div>

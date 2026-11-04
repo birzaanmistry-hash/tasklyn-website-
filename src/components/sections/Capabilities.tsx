@@ -44,13 +44,12 @@ export function Capabilities() {
   return (
     <ScrollScene id="systems" beatId="capabilities" align="center" scrim="read-left">
       <div className="max-w-[76ch]">
-        <h2 className="t-section max-w-[19ch]">
-          We build the system that does the work.
-        </h2>
+        <h2 className="t-section max-w-[19ch]">Custom enterprise AI systems.</h2>
 
         <p className="t-lead mt-5 max-w-[58ch]">
-          Not a chatbot bolted onto your website. A system that reads what comes in,
-          decides what to do, and does it in the tools you already run.
+          Engineered around your workflows, your data and the tools you already run. A
+          system that reads what comes in, decides what to do, and does it. This is the
+          work we do for clients today.
         </p>
 
         <ul ref={list} className="mt-9 grid gap-x-12 gap-y-0 border-t border-[color:var(--color-line)] md:grid-cols-2">

@@ -6,9 +6,9 @@ import { FounderLine } from "@/components/ui/ContactBits";
 import { CONTACT, VALUES } from "@/lib/content";
 
 export const metadata = pageMeta({
-  title: "Tasklyn AI Team | Birzaan Mistry and Mustufa Kapadia, Mumbai",
+  title: "About Tasklyn AI | AI-Native Product Studio in Mumbai, India",
   description:
-    "Meet the founders of Tasklyn AI, Birzaan Mistry and Mustufa Kapadia, a two-person engineering team in Mumbai building AI systems for those who run businesses.",
+    "Tasklyn AI is an AI-native product studio in Mumbai, founded by engineers Birzaan Mistry and Mustufa Kapadia, building enterprise AI systems and software.",
   path: "/team",
 });
 
@@ -18,16 +18,17 @@ export default function TeamPage() {
       {/* Intro */}
       <section className="pt-36 md:pt-44">
         <Wrap>
-          <Breadcrumbs trail={[{ name: "Team", path: "/team" }]} />
+          <Breadcrumbs trail={[{ name: "About", path: "/team" }]} />
           <h1 className="t-display mt-6 max-w-[16ch]">
             Built by engineers,
             <br />
             <span className="text-[color:var(--color-accent)]">for operators.</span>
           </h1>
           <p className="t-lead mt-8 max-w-[58ch]">
-            We are a two-person team in Mumbai. We build systems for the people who
-            actually run the business, and we build against their real work rather than
-            a demo. The people you meet on the first call are the people who build it.
+            Tasklyn is a two-person engineering team in Mumbai building an AI-native
+            product studio. We engineer custom enterprise systems for clients, and we are
+            exploring specialised software products for problems that repeat. The people
+            you meet on the first call are the people who build it.
           </p>
         </Wrap>
       </section>

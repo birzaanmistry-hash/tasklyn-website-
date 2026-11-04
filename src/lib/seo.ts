@@ -13,7 +13,8 @@ export const SITE = {
   /** The shorter form people use. Declared as an alternate name, not a rival. */
   shortName: "Tasklyn",
   description:
-    "Tasklyn AI builds custom AI systems that handle the repetitive work inside your business, from customer replies to operations. Based in Mumbai, India.",
+    "Tasklyn AI is an AI-native product studio in Mumbai, India. We engineer custom enterprise AI systems and build specialised software products for complex business problems.",
+  slogan: "Built around problems. Engineered for scale.",
 } as const;
 
 type PageMeta = {
@@ -35,7 +36,7 @@ const SHARE_IMAGE = {
   url: "/opengraph-image",
   width: 1200,
   height: 630,
-  alt: "Tasklyn AI: custom AI systems for your business operations",
+  alt: "Tasklyn AI: an AI-native product studio",
 };
 
 export function pageMeta({ title, description, path }: PageMeta): Metadata {
@@ -85,6 +86,7 @@ export function organizationLd() {
       height: 512,
     },
     description: SITE.description,
+    slogan: SITE.slogan,
     email: CONTACT.email,
     address: {
       "@type": "PostalAddress",

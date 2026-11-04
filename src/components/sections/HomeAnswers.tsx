@@ -15,11 +15,11 @@ import Link from "next/link";
 const ANSWERS = [
   {
     q: "What Tasklyn does",
-    a: "Tasklyn builds custom AI systems that take over a repetitive function in your business, such as replying to customers, qualifying leads, running operations or assembling reports. They run inside the tools you already use.",
+    a: "Tasklyn AI is an AI-native product studio. It engineers custom enterprise AI systems for clients, and builds specialised software products for business problems that recur across industries.",
   },
   {
     q: "Who it is for",
-    a: "Businesses with repetitive, rule-based work that people are doing by hand. Tasklyn does not pick a niche: the same kind of problem shows up in e-commerce, real estate, healthcare, education, manufacturing, hospitality, professional services and retail.",
+    a: "Mid-sized and large organisations with complex operational workflows, including manufacturers, exporters, and finance and procurement teams. Tasklyn is based in Mumbai and starts with India. The same kind of problem also appears in e-commerce, real estate, healthcare, education, hospitality, professional services and retail.",
   },
   {
     q: "What problems it solves",
@@ -27,11 +27,11 @@ const ANSWERS = [
   },
   {
     q: "How it works",
-    a: "Tasklyn identifies the loop that costs the most hours, engineers a system against your real data and tools, then hands it off and stays on to tune it as the business changes.",
+    a: "For client work, Tasklyn identifies the loop that costs the most hours, engineers a system against your real data and tools, then hands it off and stays on to tune it. For products, it starts with problems worth solving, validates them with prospective customers, then builds.",
   },
   {
     q: "How it is different",
-    a: "It replaces the function, not just a task. The two founders you meet on the first call are the people who build it, and they stay on after it goes live.",
+    a: "It starts with the problem, not the technology. The two founders you meet on the first call are the people who build the work, and what client engagements teach feeds the products it explores.",
   },
 ] as const;
 
@@ -65,7 +65,7 @@ export function HomeAnswers() {
             href="/services"
             className="group inline-flex min-h-11 items-center gap-2 text-[color:var(--color-accent)] transition-colors hover:text-[color:var(--color-accent-hot)]"
           >
-            See what we build
+            Custom enterprise systems
             <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
               &rarr;
             </span>

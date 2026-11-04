@@ -8,7 +8,7 @@ import { SITE } from "@/lib/seo";
  * would claim every page changed on every deploy, and Google learns to ignore
  * lastmod from sites that do that. No date is better than a false one.
  */
-const PATHS = ["/", "/services", "/team", "/contact", "/privacy", "/terms"];
+const PATHS = ["/", "/services", "/products", "/technology", "/team", "/contact", "/privacy", "/terms"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return PATHS.map((p) => ({ url: `${SITE.url}${p === "/" ? "" : p}` }));

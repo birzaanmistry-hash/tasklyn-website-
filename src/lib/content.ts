@@ -6,12 +6,15 @@
  */
 
 export const NAV = [
-  { label: "Services", href: "/services" },
-  { label: "Team", href: "/team" },
+  { label: "Solutions", href: "/services" },
+  { label: "Products", href: "/products" },
+  { label: "Technology", href: "/technology" },
+  { label: "About", href: "/team" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
-export const CTA_PRIMARY = "Build your system";
+/** One label for one intent, everywhere: booking a conversation about a requirement. */
+export const CTA_PRIMARY = "Discuss a requirement";
 
 /**
  * The Google Calendar booking page for the Tasklyn discovery call.
@@ -421,9 +424,9 @@ export const TRUST = [
       "First system in production inside weeks. You see it working on real work before you commit further.",
   },
   {
-    name: "Priced for real businesses",
+    name: "Scoped before it is built",
     body:
-      "Scoped to one function at a time, so the cost is a number you can weigh against the hours it removes.",
+      "One function at a time, so the cost is a number you can weigh against the hours it removes.",
   },
   {
     name: "Built around your business",
@@ -443,11 +446,13 @@ export const TRUST = [
 ] as const;
 
 export const SERVICE_INDUSTRIES = [
+  { name: "Manufacturing", loop: "Quote requests, order status, dispatch updates" },
+  { name: "Exporters", loop: "Buyer enquiries, quotation follow-up, shipment status updates" },
+  { name: "Finance and procurement", loop: "Invoice matching, quotation comparison, approval chasing" },
   { name: "E-commerce", loop: "Order questions, stock checks, refund requests" },
   { name: "Real estate", loop: "Enquiry chasing, site-visit scheduling, follow-up" },
   { name: "Healthcare", loop: "Appointment booking, reminders, no-show recovery" },
   { name: "Education", loop: "Course enquiries, counsellor routing, enrolment follow-up" },
-  { name: "Manufacturing", loop: "Quote requests, order status, dispatch updates" },
   { name: "Hospitality", loop: "Availability checks, bookings, pre-arrival messages" },
   { name: "Professional services", loop: "Scoping calls, proposal chasing, renewals" },
   { name: "Retail", loop: "Stock queries, offer sends, repeat-purchase nudges" },

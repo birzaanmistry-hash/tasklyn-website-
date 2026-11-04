@@ -88,8 +88,9 @@ html.lenis body {
 }
 
 .t-hero {
-  font-size: clamp(3rem, 11.5vw, 12.5rem);
-  line-height: 0.85;
+  /* Two full phrases rather than two words, so it is set smaller than it was. */
+  font-size: clamp(2.5rem, 6.6vw, 6.4rem);
+  line-height: 0.94;
   letter-spacing: -0.055em;
   font-weight: 500;
 }

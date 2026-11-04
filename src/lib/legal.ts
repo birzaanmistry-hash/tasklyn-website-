@@ -11,7 +11,7 @@
 export const LEGAL = {
   name: "Tasklyn AI",
   site: "tasklyn.in",
-  updated: "3 November 2026",
+  updated: "5 November 2026",
   rights: "All rights reserved.",
 };
 
@@ -69,7 +69,10 @@ export const PRIVACY: LegalSection[] = [
         p: "The contact form. The form on the Contact page does not send anything to our servers. When you press Send message, it opens a draft email in your own mail app, addressed to us. Nothing reaches us until you send that email. If you do, we receive what you wrote, your email address, and the usual details your email provider attaches.",
       },
       {
-        p: "Booking a call. The Build your system buttons open a Google Calendar booking page in a new tab. That page is run by Google. What you enter there, such as your name, email address and any note you add, is collected by Google and passed to us so we can hold the meeting. Google's own privacy policy applies on that page.",
+        p: "Booking a call. The Discuss a requirement buttons open a Google Calendar booking page in a new tab. That page is run by Google. What you enter there, such as your name, email address and any note you add, is collected by Google and passed to us so we can hold the meeting. Google's own privacy policy applies on that page.",
+      },
+      {
+        p: "Expressing interest in a product. The Express interest links on the Products page open a draft email in your own mail app, addressed to us. As with the contact form, nothing reaches us until you send that email.",
       },
       {
         p: "Email, phone and Instagram. If you email or call the founders, or message us on Instagram, we receive what you send and the contact details attached to it.",
@@ -210,6 +213,9 @@ export const TERMS: LegalSection[] = [
       },
       {
         p: "Descriptions of systems and how they work show what we build. They are not a promise of a specific result for you. What a system can do for a business depends on that business, and we scope it with you before we build anything.",
+      },
+      {
+        p: "Products described on the site are at the stage shown beside them. Unless a product is marked Available, it is not for sale, and its description is not a commitment to build, release or deliver it, on any timeline.",
       },
     ],
   },

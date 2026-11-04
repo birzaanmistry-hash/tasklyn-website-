@@ -7,9 +7,9 @@ import { EmailLink, InstagramLink, FounderLine } from "@/components/ui/ContactBi
 import { CONTACT } from "@/lib/content";
 
 export const metadata = pageMeta({
-  title: "Contact Tasklyn AI | Book a 45-Minute AI Discovery Call",
+  title: "Contact Tasklyn AI | Discuss an Enterprise AI Requirement",
   description:
-    "Contact Tasklyn AI by email or phone, or book a 45-minute discovery call on Google Meet. Tell us which function costs your team the most hours. Mumbai, India.",
+    "Contact Tasklyn AI by email or phone, or book a 45-minute discovery call on Google Meet to discuss an enterprise requirement. Mumbai, India, clients anywhere.",
   path: "/contact",
 });
 

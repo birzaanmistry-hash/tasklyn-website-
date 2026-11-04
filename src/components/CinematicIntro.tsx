@@ -251,7 +251,7 @@ export function CinematicIntro() {
             />
 
             <p className="intro-desc mt-[3.4vmin] max-w-[46ch] text-center text-[clamp(0.9375rem,1.5vw,1.1875rem)] leading-relaxed text-[color:var(--color-muted)] opacity-0">
-              AI systems that run the repetitive work inside your business.
+              An AI-native product studio.
             </p>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Tasklyn AI: custom AI systems for your business operations";
+export const alt = "Tasklyn AI: an AI-native product studio";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -53,7 +53,7 @@ export default function OpenGraphImage() {
               maxWidth: 680,
             }}
           >
-            Custom AI systems that run the repetitive work inside your business.
+            An AI-native product studio. Custom enterprise AI systems and specialised software.
           </div>
           <div style={{ marginTop: 40, fontSize: 28, color: "#0080ff" }}>tasklyn.in</div>
         </div>

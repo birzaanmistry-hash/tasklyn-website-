@@ -16,11 +16,11 @@ export function FinalCTA() {
     <ScrollScene id="build" beatId="cta" align="center" scrim="film" fadeOut={0.08}>
       <div>
         <h2 className="t-display max-w-[15ch]">
-          What should
+          What is the
           <br />
-          your business
+          hardest problem
           <br />
-          <span className="text-[color:var(--color-accent)]">stop doing manually?</span>
+          <span className="text-[color:var(--color-accent)]">in your operations?</span>
         </h2>
 
         <div className="mt-11 flex flex-wrap items-center gap-x-5 gap-y-3">

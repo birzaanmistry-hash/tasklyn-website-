@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { pageMeta } from "@/lib/seo";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Check } from "@phosphor-icons/react/dist/ssr";
@@ -12,9 +13,9 @@ import {
 } from "@/lib/content";
 
 export const metadata = pageMeta({
-  title: "AI Systems for Operations, Sales and Support | Tasklyn AI",
+  title: "Custom Enterprise AI Systems | Solutions, Tasklyn AI Studio",
   description:
-    "Tasklyn AI builds operations, customer response, sales, reporting and custom AI systems. We do not pick a niche. We replace the function. Based in Mumbai.",
+    "Tasklyn AI engineers custom enterprise AI systems for operations, customer response, sales and reporting, around manufacturers, exporters and complex workflows.",
   path: "/services",
 });
 
@@ -31,17 +32,27 @@ export default function ServicesPage() {
       {/* Hero */}
       <section className="pt-36 md:pt-44">
         <Wrap>
-          <Breadcrumbs trail={[{ name: "Services", path: "/services" }]} />
+          <Breadcrumbs trail={[{ name: "Solutions", path: "/services" }]} />
           <h1 className="t-display mt-6 max-w-[17ch]">
-            We don&rsquo;t pick a niche.
+            Custom enterprise AI systems.
             <br />
             <span className="text-[color:var(--color-accent)]">We replace the function.</span>
           </h1>
           <p className="t-lead mt-8 max-w-[58ch]">
-            Most agencies sell you a tool and leave you to run it. We take one function
-            that is eating your team&rsquo;s hours and build a system that does it, in the
-            tools you already have.
+            This is the work we do for clients today. We don&rsquo;t pick a niche: we take one
+            function that is consuming your team&rsquo;s hours and engineer a system that does
+            it, inside the tools you already use. What we learn from this work shapes the
+            products we explore.
           </p>
+          <Link
+            href="/products"
+            className="group mt-6 inline-flex min-h-11 items-center gap-2 text-[0.9375rem] font-medium text-[color:var(--color-accent)] transition-colors hover:text-[color:var(--color-accent-hot)]"
+          >
+            See the products we&rsquo;re building
+            <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
+              &rarr;
+            </span>
+          </Link>
         </Wrap>
       </section>
 

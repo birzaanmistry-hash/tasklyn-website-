@@ -23,7 +23,7 @@ export function SiteFooter() {
               <span className="text-[0.875rem] tracking-[0.14em]">TASKLYN</span>
             </Link>
             <p className="mt-4 max-w-[28ch] text-[0.875rem] leading-relaxed text-[color:var(--color-muted)]">
-              AI systems that run the repetitive work inside your business.
+              Built around problems. Engineered for scale.
             </p>
           </div>
 

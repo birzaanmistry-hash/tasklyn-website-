@@ -211,6 +211,28 @@ policy becomes inaccurate.
 Both documents carry a "last updated" date in `LEGAL.updated`. Bump it when the
 wording changes.
 
+## Product-studio layer
+
+Tasklyn is positioned as an AI-native product studio: custom enterprise AI
+systems for clients today, and proprietary products it is exploring.
+
+- **`src/lib/studio.ts` is the single source of truth** for the studio
+  statement, the products, their status labels, the product thesis and the
+  technology areas. The home teaser, `/products`, `/technology` and the
+  honesty line on `/products` all read from it.
+- **Product status is a claim.** Every product is currently `exploring`. Change
+  a status only when it is true (one line per product in `studio.ts`), and keep
+  `public/llms.txt` and the terms wording in step. The status labels are
+  Exploring, In research, In development, Early access, Available.
+- **No fake evidence.** Product pages use conceptual flows only, captioned
+  "Concept flow, not a product interface". No screenshots, customers, metrics or
+  certifications. `Express interest` is a `mailto` (see `interestHref`).
+- **Navigation:** Solutions (`/services`), Products, Technology, About
+  (`/team`), Contact. Primary CTA label is `CTA_PRIMARY` in `content.ts`, and it
+  always opens the Google Calendar booking link.
+- **Privacy and terms** mention the Express interest links and that products not
+  marked Available are not for sale. Keep them in step with any change here.
+
 ## Deliberately absent
 
 No testimonials, client logos, case studies, award badges or performance
