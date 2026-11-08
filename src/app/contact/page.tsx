@@ -1,91 +1,83 @@
-import { pageMeta } from "@/lib/seo";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { SiteShell, Wrap } from "@/components/SiteShell";
-import { BookBand } from "@/components/ui/CtaBand";
-import { ContactForm } from "@/components/sections/ContactForm";
-import { EmailLink, InstagramLink, FounderLine } from "@/components/ui/ContactBits";
-import { CONTACT } from "@/lib/content";
+import { CalendarBlank } from "@phosphor-icons/react/dist/ssr";
+import { SiteShell } from "@/components/SiteShell";
+import { Button } from "@/components/ui/Button";
+import { EmailLink, FounderLine, InstagramLink } from "@/components/ui/ContactBits";
+import { ContactForm } from "@/components/ui/ContactForm";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { PageHero } from "@/components/ui/PageHero";
+import { Wrap } from "@/components/ui/Wrap";
+import { BOOKING_DETAIL, BOOKING_URL, CONTACT } from "@/lib/content";
+import { pageMeta, webPageLd } from "@/lib/seo";
 
-export const metadata = pageMeta({
-  title: "Contact Tasklyn AI | Book a 45-Minute AI Discovery Call",
+const META = {
+  title: "Contact Tasklyn | Talk to Our Enterprise AI Engineering Team",
   description:
-    "Contact Tasklyn AI by email or phone, or book a 45-minute discovery call on Google Meet. Tell us which function costs your team the most hours. Mumbai, India.",
+    "Talk to Tasklyn about an AI initiative: send a message, book a 45-minute call on Google Meet, or reach the founders by email or phone. Based in Mumbai, India.",
   path: "/contact",
-});
+};
+
+export const metadata = pageMeta(META);
 
 export default function ContactPage() {
   return (
     <SiteShell>
-      <section className="pt-36 md:pt-44">
-        <Wrap>
-          <Breadcrumbs trail={[{ name: "Contact", path: "/contact" }]} />
-          <h1 className="t-display mt-6 max-w-[16ch]">
-            Tell us what is
-            <br />
-            <span className="text-[color:var(--color-accent)]">taking the time.</span>
-          </h1>
-        </Wrap>
-      </section>
+      <JsonLd data={webPageLd({ ...META, type: "ContactPage" })} />
 
-      <section className="pt-16 md:pt-20">
-        <Wrap>
-          <div className="grid gap-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-24">
-            {/* Left: how to reach us */}
-            <div>
-              <div className="border-t border-[color:var(--color-line)] pt-7">
-                <p className="t-tech">Email</p>
-                <div className="mt-3 text-[1rem]">
-                  <EmailLink />
-                </div>
-              </div>
+      <PageHero
+        crumbs={[{ name: "Contact", path: "/contact" }]}
+        title="Talk To Our Team."
+        lead="Tell us what you want to build or improve. Whether it is a first AI initiative or an existing system, you will hear back from the people who would engineer it."
+      />
 
-              <div className="mt-9 border-t border-[color:var(--color-line)] pt-7">
-                <p className="t-tech">Founders, direct</p>
-                <div className="mt-5 space-y-7">
-                  {CONTACT.founders.map((f) => (
-                    <FounderLine key={f.name} founder={f} />
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-9 border-t border-[color:var(--color-line)] pt-7">
-                <p className="t-tech">Where we are</p>
-                <p className="mt-3 text-[1rem] text-[color:var(--color-ink)]">{CONTACT.city}</p>
-                <p className="mt-1 text-[0.9375rem] text-[color:var(--color-muted)]">
-                  {CONTACT.reach}
-                </p>
-              </div>
-
-              <div className="mt-9 border-t border-[color:var(--color-line)] pt-7">
-                <p className="t-tech">Instagram</p>
-                <div className="mt-3 text-[1rem]">
-                  <InstagramLink />
-                </div>
-              </div>
+      <Wrap className="py-(--space-block)">
+        <div className="grid gap-14 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20">
+          {/* form */}
+          <section aria-labelledby="form-h">
+            <h2 id="form-h" className="text-h3 text-ink">
+              Send Us A Message
+            </h2>
+            <p className="mt-3 max-w-[52ch] text-body text-muted">We reply within one working day.</p>
+            <div className="mt-10">
+              <ContactForm />
             </div>
+          </section>
 
-            {/* Right: the form. On a hairline, like everything else, rather
-                than in a raised panel. */}
-            <div className="border-t border-[color:var(--color-line)] pt-7">
-              <p className="t-tech">Send us the problem</p>
-              <h2 className="mt-3 text-[1.375rem] font-medium tracking-[-0.03em]">
-                One function, in your own words.
-              </h2>
-              <p className="mt-2.5 max-w-[46ch] text-[0.9375rem] leading-relaxed text-[color:var(--color-muted)]">
-                We reply within one working day.
+          {/* direct */}
+          <aside aria-label="Other ways to reach us" className="flex flex-col gap-3">
+            <div data-tone="dark" className="rounded-panel bg-navy p-7 text-snow md:p-9">
+              <CalendarBlank size={28} weight="light" aria-hidden="true" className="text-cyan" />
+              <h2 className="mt-6 text-h3 text-snow">Book A Call</h2>
+              <p className="mt-3 text-body text-haze">
+                Choose a time that suits you. {BOOKING_DETAIL}
               </p>
-
               <div className="mt-8">
-                <ContactForm />
+                <Button href={BOOKING_URL} variant="onDark" external>
+                  Book A Discovery Call
+                </Button>
               </div>
             </div>
-          </div>
-        </Wrap>
-      </section>
 
-      <div className="pt-24 md:pt-32">
-        <BookBand />
-      </div>
+            <div className="rounded-panel border border-line p-7 md:p-9">
+              <h2 className="text-h4 text-ink">Founders, Direct</h2>
+              <div className="mt-6 grid gap-7 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                {CONTACT.founders.map((f) => (
+                  <FounderLine key={f.name} founder={f} />
+                ))}
+              </div>
+
+              <div className="mt-8 grid gap-1 border-t border-line pt-6">
+                <EmailLink />
+                <InstagramLink />
+              </div>
+
+              <div className="mt-6 border-t border-line pt-6">
+                <p className="text-body text-ink">{CONTACT.city}</p>
+                <p className="mt-1 text-small text-muted">{CONTACT.reach}</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </Wrap>
     </SiteShell>
   );
 }

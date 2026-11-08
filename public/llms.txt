@@ -1,43 +1,31 @@
-# Tasklyn AI
+# Tasklyn
 
-> Tasklyn AI builds custom AI systems that handle the repetitive work inside a business, from replying to customers to running operations. It is a two-person engineering team based in Mumbai, India, working with clients anywhere.
+> Tasklyn is an India-based AI engineering company. It designs, builds, integrates and deploys AI systems for organisations, and is developing AI-powered products of its own. Tagline: "AI is the future and we are building it."
 
-Tasklyn does not pick a niche. It takes one function that is consuming a team's hours and builds a system that does it, inside the tools the business already uses.
+Tasklyn is based in Mumbai, India, and serves organisations in India, the United States, the United Kingdom, Europe and the Middle East. This file is a supplementary summary; the pages below are the authoritative source.
 
-## What Tasklyn builds
+## Solutions
+- [Solutions overview](https://tasklyn.in/solutions)
+- [AI Engineering](https://tasklyn.in/solutions/ai-engineering)
+- [Agentic AI Systems](https://tasklyn.in/solutions/agentic-ai)
+- [Intelligent Automation](https://tasklyn.in/solutions/automation)
+- [LLM and Generative AI](https://tasklyn.in/solutions/llm)
+- [Enterprise AI Integration](https://tasklyn.in/solutions/ai-integration)
+- [Data and Machine Learning](https://tasklyn.in/solutions/data-ml)
+- [AI Strategy and Consulting](https://tasklyn.in/solutions/ai-consulting)
 
-- Operations systems: scheduling, orders, records and reporting handled without manual entry.
-- Customer response systems: replies on WhatsApp, email and web chat, using the business's own pricing and history.
-- Sales and retention systems: enquiries scored, qualified and followed up, with meetings booked into the calendar.
-- Reporting and insight systems: recurring reports assembled from the tools a business already runs.
-- Custom builds: systems scoped to a single, specific process.
+## Company
+- [Products: vision for AI products and platforms (no products are released yet)](https://tasklyn.in/products)
+- [Industries](https://tasklyn.in/industries)
+- [Technology: five-layer architecture](https://tasklyn.in/technology)
+- [Case studies: the problems Tasklyn engineers (no client engagements are published)](https://tasklyn.in/case-studies)
+- [Resources: answers to common enterprise AI questions](https://tasklyn.in/resources)
+- [About Tasklyn](https://tasklyn.in/company)
+- [Contact](https://tasklyn.in/contact)
 
-## How an engagement works
-
-1. Identify: find the repetitive loop that costs the most hours.
-2. Engineer: build against the business's real data, tools and edge cases, and test on work that has already happened.
-3. Hand off: go live, train the team to steer it, and stay on to tune it as the business changes.
-
-## Who it is for
-
-Businesses that have repetitive, rule-based work being done by hand, such as in e-commerce, real estate, healthcare, education, manufacturing, hospitality, professional services and retail.
-
-## Pages
-
-- [Home](https://tasklyn.in/): the Tasklyn overview.
-- [Services](https://tasklyn.in/services): the five kinds of system, how Tasklyn works, and the loops it replaces by industry.
-- [Team](https://tasklyn.in/team): the founders, Birzaan Mistry and Mustufa Kapadia.
-- [Contact](https://tasklyn.in/contact): email, phone and booking.
-- [Privacy policy](https://tasklyn.in/privacy)
-- [Terms of use](https://tasklyn.in/terms)
-
-## Contact
-
-- Email: tasklynai@gmail.com
-- Instagram: https://instagram.com/tasklyn.ai
-- Location: Mumbai, India
-- Book a 45-minute discovery call: https://calendar.google.com/calendar/appointments/schedules/AcZssZ17Jevq0QKNWSBWPoE8hVw5XKa_lWSt9HSVvA2PGAPofY303rhof04xgj-NoRpfuHkQ5OIkMQTF
-
-## Sitemap
-
-https://tasklyn.in/sitemap.xml
+## Facts
+- Founders: Birzaan Mistry and Mustafa Kapadia.
+- Contact: tasklynai@gmail.com
+- Privacy: https://tasklyn.in/privacy
+- Terms: https://tasklyn.in/terms
+- Sitemap: https://tasklyn.in/sitemap.xml

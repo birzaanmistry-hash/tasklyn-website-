@@ -2,10 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // The dev overlay sits on top of the Core and gets in the way of judging it.
   devIndicators: false,
-  // three.js ships untranspiled ESM addons; keep the graph tidy for the server build.
-  transpilePackages: ["three"],
+  // The old two-page structure moved to the new information architecture.
+  // Permanent redirects keep inbound links and search equity.
+  async redirects() {
+    return [
+      { source: "/services", destination: "/solutions", permanent: true },
+      { source: "/team", destination: "/company", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {
@@ -23,7 +28,7 @@ const nextConfig: NextConfig = {
     ];
   },
   experimental: {
-    optimizePackageImports: ["@phosphor-icons/react", "motion"],
+    optimizePackageImports: ["@phosphor-icons/react"],
   },
 };
 

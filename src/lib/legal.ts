@@ -11,7 +11,7 @@
 export const LEGAL = {
   name: "Tasklyn AI",
   site: "tasklyn.in",
-  updated: "3 November 2026",
+  updated: "6 November 2026",
   rights: "All rights reserved.",
 };
 
@@ -33,7 +33,7 @@ export const PRIVACY_INTRO =
 export const PRIVACY: LegalSection[] = [
   {
     id: "who-we-are",
-    title: "Who we are",
+    title: "Who We Are",
     blocks: [
       {
         p: "This website, tasklyn.in, is operated by Tasklyn AI (\"Tasklyn\", \"we\", \"us\"), based in Mumbai, India. For anything in this policy, write to tasklynai@gmail.com.",
@@ -45,7 +45,7 @@ export const PRIVACY: LegalSection[] = [
   },
   {
     id: "what-the-site-does-not-do",
-    title: "What this website does not do",
+    title: "What This Website Does Not Do",
     blocks: [
       {
         ul: [
@@ -60,7 +60,7 @@ export const PRIVACY: LegalSection[] = [
   },
   {
     id: "what-we-receive",
-    title: "What we do receive",
+    title: "What We Do Receive",
     blocks: [
       {
         p: "Hosting records. When you load a page, our host, Vercel, automatically records technical details of the request: your IP address, browser and device type, the page you asked for, and the time. Every website does this to deliver its pages. We use these records to keep the site running and secure, and we do not combine them with other information to identify or profile you.",
@@ -69,16 +69,16 @@ export const PRIVACY: LegalSection[] = [
         p: "The contact form. The form on the Contact page does not send anything to our servers. When you press Send message, it opens a draft email in your own mail app, addressed to us. Nothing reaches us until you send that email. If you do, we receive what you wrote, your email address, and the usual details your email provider attaches.",
       },
       {
-        p: "Booking a call. The Build your system buttons open a Google Calendar booking page in a new tab. That page is run by Google. What you enter there, such as your name, email address and any note you add, is collected by Google and passed to us so we can hold the meeting. Google's own privacy policy applies on that page.",
+        p: "Booking a call. The booking link on our Contact page, which our Talk to Our Team buttons lead to, opens a Google Calendar booking page in a new tab. That page is run by Google. What you enter there, such as your name, email address and any note you add, is collected by Google and passed to us so we can hold the meeting. Google's own privacy policy applies on that page.",
       },
       {
-        p: "Email, phone and Instagram. If you email or call the founders, or message us on Instagram, we receive what you send and the contact details attached to it.",
+        p: "Email, phone, WhatsApp and Instagram. If you email or call the founders, message them on WhatsApp or Instagram, we receive what you send and the contact details attached to it.",
       },
     ],
   },
   {
     id: "why-we-use-it",
-    title: "Why we use it",
+    title: "Why We Use It",
     blocks: [
       {
         p: "We use your details only for the purpose you gave them: to reply to you, to hold the call you booked, and to follow up on what you asked about. We do not use them for anything unrelated, and we do not add you to a mailing list without asking.",
@@ -90,7 +90,7 @@ export const PRIVACY: LegalSection[] = [
   },
   {
     id: "who-we-share-it-with",
-    title: "Who we share it with",
+    title: "Who We Share It With",
     blocks: [
       {
         p: "We do not sell your information and we do not share it for advertising.",
@@ -105,7 +105,7 @@ export const PRIVACY: LegalSection[] = [
   },
   {
     id: "outside-india",
-    title: "Where it is processed",
+    title: "Where It Is Processed",
     blocks: [
       {
         p: "Vercel, Google and Meta run infrastructure in several countries, so your information may be processed outside India. We use established providers and rely on their security commitments.",
@@ -114,7 +114,7 @@ export const PRIVACY: LegalSection[] = [
   },
   {
     id: "how-long-we-keep-it",
-    title: "How long we keep it",
+    title: "How Long We Keep It",
     blocks: [
       {
         p: "We keep enquiry emails and booking records for up to 24 months after our last contact with you, then delete them. If we go on to work together, the client agreement sets the period instead. We keep information for longer only where the law requires us to.",
@@ -135,7 +135,7 @@ export const PRIVACY: LegalSection[] = [
   },
   {
     id: "your-rights",
-    title: "Your rights",
+    title: "Your Rights",
     blocks: [
       { p: "You can ask us to:" },
       {
@@ -175,7 +175,7 @@ export const PRIVACY: LegalSection[] = [
   },
   {
     id: "changes",
-    title: "Changes to this policy",
+    title: "Changes To This Policy",
     blocks: [
       {
         p: "When our practices change, we will update this page and revise the date at the top. We will note any significant change on this page.",
@@ -194,7 +194,7 @@ export const TERMS_INTRO =
 export const TERMS: LegalSection[] = [
   {
     id: "agreement",
-    title: "Agreement to these terms",
+    title: "Agreement To These Terms",
     blocks: [
       {
         p: "By using tasklyn.in you agree to these terms. If you do not agree, please do not use the site. The site is operated by Tasklyn AI, Mumbai, India.",
@@ -203,7 +203,7 @@ export const TERMS: LegalSection[] = [
   },
   {
     id: "about-the-site",
-    title: "About this site",
+    title: "About This Site",
     blocks: [
       {
         p: "The site describes what Tasklyn builds. It is for general information. Nothing on it is a binding offer, a quotation, or advice for your particular business.",
@@ -215,7 +215,7 @@ export const TERMS: LegalSection[] = [
   },
   {
     id: "booking-a-call",
-    title: "Booking a call or contacting us",
+    title: "Booking A Call Or Contacting Us",
     blocks: [
       {
         p: "Booking a discovery call, or sending us a message, does not create a client relationship and does not oblige either of us to work together.",
@@ -227,7 +227,7 @@ export const TERMS: LegalSection[] = [
   },
   {
     id: "intellectual-property",
-    title: "Intellectual property",
+    title: "Intellectual Property",
     blocks: [
       {
         p: "© Tasklyn AI. All rights reserved.",
@@ -242,7 +242,7 @@ export const TERMS: LegalSection[] = [
   },
   {
     id: "acceptable-use",
-    title: "Acceptable use",
+    title: "Acceptable Use",
     blocks: [
       { p: "You agree not to:" },
       {
@@ -257,7 +257,7 @@ export const TERMS: LegalSection[] = [
   },
   {
     id: "third-party-services",
-    title: "Third-party services and links",
+    title: "Third-Party Services And Links",
     blocks: [
       {
         p: "The site links to services we do not run, including the Google Calendar booking page and Instagram. They are governed by their own terms and privacy policies, and we are not responsible for them.",
@@ -275,7 +275,7 @@ export const TERMS: LegalSection[] = [
   },
   {
     id: "no-warranties",
-    title: "No warranties",
+    title: "No Warranties",
     blocks: [
       {
         p: "The site is provided as is and as available. To the fullest extent permitted by law, we give no warranties, express or implied, about its accuracy, completeness or fitness for a particular purpose.",
@@ -284,7 +284,7 @@ export const TERMS: LegalSection[] = [
   },
   {
     id: "limitation-of-liability",
-    title: "Limitation of liability",
+    title: "Limitation Of Liability",
     blocks: [
       {
         p: "To the fullest extent permitted by law, Tasklyn AI is not liable for any indirect or consequential loss, or for loss of profit, revenue, data or goodwill, arising from your use of the site or your reliance on its content.",
@@ -305,7 +305,7 @@ export const TERMS: LegalSection[] = [
   },
   {
     id: "governing-law",
-    title: "Governing law",
+    title: "Governing Law",
     blocks: [
       {
         p: "These terms are governed by the laws of India. The courts at Mumbai have exclusive jurisdiction over any dispute arising from them or from your use of the site.",
@@ -314,7 +314,7 @@ export const TERMS: LegalSection[] = [
   },
   {
     id: "changes",
-    title: "Changes to these terms",
+    title: "Changes To These Terms",
     blocks: [
       {
         p: "We may update these terms. The date at the top shows when they were last changed. If you keep using the site after a change, you accept the updated terms.",

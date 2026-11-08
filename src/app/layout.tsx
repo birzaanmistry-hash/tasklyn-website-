@@ -1,83 +1,70 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { organizationLd, SITE, websiteLd } from "@/lib/seo";
 import "./globals.css";
 
-// Self-hosted through next/font, so there is no render-blocking request to a
-// font CDN and no layout shift when the display face arrives.
-const geist = Geist({
+// Typeface: San Francisco on Apple devices via the system stack (SF Pro may not
+// be self-hosted under Apple's licence), Inter everywhere else. Inter is
+// downloaded at build time and served from our own origin by next/font: no font
+// CDN request, a metric-matched fallback (adjustFontFallback) so swapping in
+// causes no layout shift. Variable font: all weights plus the optical-size axis
+// in one file, so display sizes get Inter Display's tighter forms.
+// The stack itself lives in globals.css (--font-sans).
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-geist",
+  variable: "--font-inter",
   display: "swap",
-  weight: ["300", "400", "500", "600"],
+  axes: ["opsz"],
+  adjustFontFallback: true,
 });
 
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-  display: "swap",
-  weight: ["400", "500"],
-});
-
-const title = "Tasklyn AI | Custom AI Systems for Your Business Operations";
-const description =
-  "Tasklyn AI builds custom AI systems that handle the repetitive work inside your business, from customer replies to operations. Based in Mumbai, India.";
+const title = "Tasklyn | Enterprise AI Engineering & Products, India";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tasklyn.in"),
+  metadataBase: new URL(SITE.url),
   title: {
     default: title,
-    template: "%s | Tasklyn AI",
+    template: "%s | Tasklyn",
   },
-  description,
-  applicationName: "Tasklyn AI",
-  authors: [{ name: "Tasklyn AI" }],
-  keywords: [
-    "AI systems",
-    "AI agents",
-    "business automation",
-    "workflow intelligence",
-    "AI operations",
-    "Mumbai",
-  ],
+  description: SITE.description,
+  applicationName: SITE.name,
+  authors: [{ name: SITE.name }],
   openGraph: {
     title,
-    description,
-    url: "https://tasklyn.in",
-    siteName: "Tasklyn AI",
+    description: SITE.description,
+    url: SITE.url,
+    siteName: SITE.name,
     type: "website",
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
     title,
-    description,
+    description: SITE.description,
   },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05070c",
-  colorScheme: "dark",
+  themeColor: "#ffffff",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
-  // Lets the page draw under the notch; the safe-area utilities then keep the
-  // fixed bars clear of it.
   viewportFit: "cover",
-  // Zoom stays available. Locking it is an accessibility failure, and this page
-  // has small technical type in places.
+  // Zoom stays available: locking it is an accessibility failure.
   maximumScale: 5,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
+    <html lang="en" className={inter.variable}>
       <body>
         <a className="skip-link" href="#main">
           Skip to content
         </a>
         {children}
+        <JsonLd data={[organizationLd(), websiteLd()]} />
       </body>
     </html>
   );

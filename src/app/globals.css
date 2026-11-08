@@ -1,463 +1,753 @@
 @import "tailwindcss";
 
-/* ============================================================
+/* ==================================================================
    TASKLYN DESIGN TOKENS
-   Palette is inherited from the existing tasklyn.in identity.
-   Accent #0080FF is the single locked accent for the whole page.
-   #06D0F9 is not a second accent: it is the high-temperature end
-   of the brand gradient, used only as the colour of light inside
-   the Core when work is actively executing.
-   ============================================================ */
+   ------------------------------------------------------------------
+   Light editorial by default. Deep navy is reserved for four places:
+   the hero panel, technology, the final CTA and the footer.
+   Blue and cyan are sampled from the logo's own arrow
+   (#0196FD at the base, #04BDFA at the head) and used sparingly:
+   links, a few strokes in diagrams, focus rings.
+   Never hard-code a hex in a component: use these tokens.
+   ================================================================== */
 
 @theme {
-  /* Surfaces. Deep navy-black, never pure #000. */
-  --color-void: #05070c;
-  --color-abyss: #080c16;
-  --color-surface: #0c1322;
-  --color-raised: #131d34;
+  /* ---------- colour ---------- */
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #ffffff;
 
-  /* Structure */
-  --color-line: #1c2740;
-  --color-line-soft: #131d34;
+  /* Light surfaces */
+  --color-paper: #ffffff;
+  --color-mist: #f7f8fa; /* off-white section ground */
+  --color-line: #e9edf2; /* hairlines on light */
+  --color-line-strong: #d6dde6; /* inputs, emphasised rules */
 
-  /* Type */
-  --color-ink: #f4f7fb;
-  --color-muted: #9db1cb;
-  --color-faint: #8194b0;
+  /* Text on light */
+  --color-ink: #101828; /* headings + body */
+  --color-ink-soft: #344054; /* long-form body */
+  --color-muted: #667085; /* secondary, AA on white and mist */
 
-  /* Brand */
-  --color-accent: #0080ff;
-  --color-accent-hot: #06d0f9;
-  --color-accent-deep: #0a3d78;
+  /* Dark surfaces */
+  --color-navy: #101b30; /* hero panel, technology, CTA, footer */
+  --color-navy-deep: #0b1424; /* footer base, inset wells */
+  --color-navy-line: #26344d; /* hairlines on navy */
+  --color-snow: #f4f6fa; /* text on navy */
+  --color-haze: #a3b1c6; /* secondary text on navy (7.8:1) */
 
-  /* One radius scale for the entire page: machined, not pill. */
-  --radius-machined: 4px;
+  /* Brand accents */
+  --color-blue: #168beb; /* strokes, large marks, never small text on white */
+  --color-blue-ink: #0b6bc4; /* blue text/links on light (5.5:1) */
+  --color-cyan: #00d4e8; /* accents on navy only */
+  --color-danger: #b42318;
 
-  --font-display: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+  /* Black chapters (home): pure black ground, the Scale-style rhythm */
+  --color-black: #000000;
+  --color-ash: #c7c7c7; /* 14px body on black (12.4:1) */
+  --color-dim: #8d9ab0; /* dimmed second half of headings on black (7.5:1) and navy (6.2:1) */
+  --color-label: #929292; /* 11px labels on black (6.9:1) */
+  --color-night: #05070c; /* hero field base */
 
-  /* Cinematic easing. Used everywhere so motion reads as one system. */
-  --ease-core: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-drive: cubic-bezier(0.65, 0, 0.35, 1);
+  /* ---------- type ----------
+     San Francisco, the Apple way. Apple's licence does not allow SF Pro to be
+     self-hosted or redistributed on a website, so we never ship the files:
+     -apple-system / BlinkMacSystemFont ask macOS, iOS and iPadOS for the
+     system font, which IS San Francisco (with its optical sizes). Everyone
+     else gets Inter (open source, built in the same spirit), self-hosted by
+     next/font at build time as --font-inter, with a metric-matched fallback.
+     Mono is the system stack: SF Mono on Apple, Consolas on Windows. */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", var(--font-inter), "Inter",
+    ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Apple-style scale (390px -> 1440px). Display sizes are semibold (600)
+     with tight tracking; body is 17px / 1.47 / -0.011em. */
+  --text-display: clamp(2.75rem, 1.6rem + 4.7vw, 5.5rem); /* 44 -> 88 */
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.03em;
+  --text-h2: clamp(2.125rem, 1.4rem + 2.6vw, 3.5rem); /* 34 -> 56 */
+  --text-h2--line-height: 1.08;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: clamp(1.5rem, 1.31rem + 0.76vw, 2rem); /* 24 -> 32 */
+  --text-h3--line-height: 1.15;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h4: 1.25rem; /* 20 */
+  --text-h4--line-height: 1.25;
+  --text-h4--letter-spacing: -0.017em;
+  --text-lead: clamp(1.1875rem, 1.12rem + 0.28vw, 1.3125rem); /* 19 -> 21 */
+  --text-lead--line-height: 1.43;
+  --text-lead--letter-spacing: -0.014em;
+  --text-body: 1.0625rem; /* 17, Apple's body size */
+  --text-body--line-height: 1.47;
+  --text-body--letter-spacing: -0.011em;
+  --text-small: 0.9375rem; /* 15 */
+  --text-small--line-height: 1.47;
+  --text-small--letter-spacing: -0.009em;
+  --text-nav: 0.875rem; /* 14 */
+  --text-nav--line-height: 1.25;
+  --text-nav--letter-spacing: -0.006em;
+  --text-label: 0.75rem; /* 12, mono labels */
+  --text-label--line-height: 1.3;
+  --text-label--letter-spacing: 0.08em;
+
+  /* Home scale */
+  --text-hero: clamp(2.75rem, 1.6rem + 4.7vw, 5.5rem); /* 44 -> 88, semibold */
+  --text-hero--line-height: 1.05;
+  --text-hero--letter-spacing: -0.03em;
+  --text-title: clamp(2.125rem, 1.4rem + 2.6vw, 3.5rem); /* 34 -> 56, section headings */
+  --text-title--line-height: 1.08;
+  --text-title--letter-spacing: -0.025em;
+  --text-statement: clamp(2.25rem, 1.45rem + 3.3vw, 4.25rem); /* 36 -> 68, statement panel */
+  --text-statement--line-height: 1.06;
+  --text-statement--letter-spacing: -0.028em;
+  --text-sub: clamp(1.1875rem, 1rem + 0.75vw, 1.6875rem); /* 19 -> 27, supporting headline */
+  --text-sub--line-height: 1.2;
+  --text-sub--letter-spacing: -0.018em;
+  --text-word: clamp(2rem, 0.95rem + 3.3vw, 4rem); /* 32 -> 64, industry word stack */
+  --text-word--line-height: 1.08;
+  --text-word--letter-spacing: -0.025em;
+  --text-item: 1.0625rem; /* 17, card / list titles (semibold) */
+  --text-item--line-height: 1.3;
+  --text-item--letter-spacing: -0.016em;
+  --text-copy: 0.875rem; /* 14, small text */
+  --text-copy--line-height: 1.5;
+  --text-copy--letter-spacing: -0.006em;
+  --text-micro: 0.75rem; /* 12, uppercase labels */
+  --text-micro--line-height: 1.3;
+  --text-micro--letter-spacing: 0.08em;
+
+  /* ---------- layout ---------- */
+  --container-wrap: 84rem; /* 1344px content width */
+  --container-prose: 65ch;
+  --container-measure: 38rem;
+
+  /* ---------- radius ---------- */
+  --radius-panel: 1.25rem; /* large rounded panels (hero, CTA, technology) */
+  --radius-tile: 1rem; /* cards and visual tiles */
+  --radius-card: 0.75rem; /* framed content */
+  --radius-control: 0.5rem; /* buttons, inputs */
+
+  /* ---------- motion ---------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in: cubic-bezier(0.3, 0, 1, 1);
+
 }
 
 :root {
-  color-scheme: dark;
-  --nav-h: 68px;
+  color-scheme: light;
+  --header-h: 4rem; /* 64px; 72px from lg, see below */
+  --gutter: 1.25rem; /* 20px at 390 */
+  --space-section: clamp(5rem, 3.4rem + 5.4vw, 9rem); /* 80 -> 144 */
+  --space-block: clamp(2.5rem, 1.8rem + 2.4vw, 4.5rem); /* 40 -> 72 */
+  --duration-fast: 150ms;
+  --duration-base: 240ms;
+  --duration-slow: 700ms;
 }
 
-/* ---------- base ---------- */
+@media (min-width: 768px) {
+  :root {
+    --gutter: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 3rem;
+    --header-h: 5.5rem; /* 88px header zone, as measured on the reference */
+  }
+}
 
-* {
+/* ---------- base (layered so utilities always win) ---------- */
+
+@layer base {
+
+*,
+::before,
+::after {
   border-color: var(--color-line);
 }
 
 html {
-  background: var(--color-void);
+  background: var(--color-paper);
   -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
-  background: var(--color-void);
+  background: var(--color-paper);
   color: var(--color-ink);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  letter-spacing: var(--text-body--letter-spacing);
+  font-weight: 400;
   font-synthesis-weight: none;
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  font-feature-settings: "kern", "liga", "calt";
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
 }
 
-/* Lenis owns the scroll; without this the page double-scrolls. */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-/* ---------- typography scale ---------- */
-
-.t-hero,
-.t-display,
-.t-section {
+/* Headings: Apple's headline weight is semibold. Size and tracking come
+   from the text-* tokens; balance keeps Title Case lines even. */
+h1,
+h2,
+h3,
+h4 {
   text-wrap: balance;
+  font-weight: 600;
 }
 
-.t-hero {
-  font-size: clamp(3rem, 11.5vw, 12.5rem);
-  line-height: 0.85;
-  letter-spacing: -0.055em;
-  font-weight: 500;
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  letter-spacing: inherit;
 }
 
-.t-display {
-  font-size: clamp(2.25rem, min(7vw, 11vh), 6.5rem);
-  line-height: 0.92;
-  letter-spacing: -0.045em;
-  font-weight: 500;
+p,
+li,
+dd {
+  text-wrap: pretty;
 }
 
-.t-section {
-  /* Capped against viewport height too: on a short laptop window a purely
-     width-based clamp pushes long sections off the top of the frame. */
-  font-size: clamp(1.75rem, min(4.4vw, 7.2vh), 4rem);
-  line-height: 1;
-  letter-spacing: -0.038em;
-  font-weight: 500;
+::selection {
+  background: color-mix(in srgb, var(--color-blue) 22%, transparent);
+  color: var(--color-ink);
 }
 
-.t-lead {
-  font-size: clamp(1rem, 1.35vw, 1.25rem);
-  line-height: 1.55;
-  letter-spacing: -0.012em;
-  color: var(--color-muted);
 }
 
-/* Technical labels. Mono, small, wide. Rationed across the page. */
-.t-tech {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  line-height: 1;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--color-faint);
-  font-weight: 400;
-}
-
-.t-data {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  letter-spacing: -0.01em;
-  font-variant-numeric: tabular-nums;
-}
-
-/* ---------- safe areas ----------
-   On notched and home-indicator phones, fixed bars have to clear the insets or
-   the logo sits under the status bar. */
-
-.safe-top {
-  padding-top: env(safe-area-inset-top);
-}
-.safe-bottom {
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-/* ---------- focus ---------- */
+/* ---------- focus: visible, 2px, AA on both grounds ---------- */
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-blue-ink);
   outline-offset: 3px;
-  border-radius: 2px;
 }
-:focus:not(:focus-visible) {
-  outline: none;
+
+[data-tone="dark"] :focus-visible {
+  outline-color: var(--color-cyan);
 }
+
+/* ---------- skip link ---------- */
 
 .skip-link {
   position: fixed;
+  left: 1rem;
   top: 0.75rem;
-  left: 0.75rem;
-  z-index: 200;
-  transform: translateY(-250%);
-  background: var(--color-accent);
-  color: #001222;
-  padding: 0.6rem 1rem;
-  border-radius: var(--radius-machined);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  transition: transform 0.2s var(--ease-core);
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-control);
+  background: var(--color-ink);
+  color: var(--color-white);
+  font-size: var(--text-small);
+  transform: translateY(-200%);
+  transition: transform var(--duration-base) var(--ease-out);
 }
 .skip-link:focus {
   transform: translateY(0);
 }
 
-/* ---------- selection ---------- */
+/* ---------- mono label (technical labels: section numbers, codes) ---------- */
 
-::selection {
-  background: color-mix(in oklab, var(--color-accent) 40%, transparent);
-  color: var(--color-ink);
-}
-
-/* ---------- scrollbar ---------- */
-
-::-webkit-scrollbar {
-  width: 9px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-abyss);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-line);
-  border-radius: 99px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent-deep);
-}
-
-/* ---------- atmosphere ----------
-   Fixed, pointer-events-none, never inside a scrolling container,
-   so it costs one composite layer and no repaints. */
-
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.16;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
-}
-
-/* Vignette keeps the eye at the centre of frame, like a lens. */
-.vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 55;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse 120% 85% at 50% 50%,
-    transparent 52%,
-    rgba(5, 7, 12, 0.38) 88%,
-    rgba(5, 7, 12, 0.72) 100%
-  );
-}
-
-/* ---------- legibility ----------
-   Copy on this page sits over a moving 3D object, so contrast cannot be left
-   to chance. Every beat carries a scrim: a wash of the page ground between the
-   Core and the words.
-
-   There are two tiers, because the two kinds of section have different needs.
-
-   READ scrims are for sections you actually read: capabilities, layers, agents,
-   the live run, industries, process. They hold the text zone at ~0.93 of the
-   page ground, which measures about 7:1 for body copy even when the brightest
-   part of the Core is directly behind it. The Core stays visible at the edge of
-   frame so the object is never lost.
-
-   FILM scrims are for the big typographic beats, where the type is display
-   sized and near-white and needs far less help. Those keep the Core much more
-   present, which is where the drama lives.
-
-   Measured worst case (brightest Core state behind the smallest label):
-   READ >= 6.4:1, FILM >= 5.1:1. Both clear WCAG AA. */
-
-.scrim {
-  position: absolute;
-  inset: 0;
-  /* The Core's canvas is fixed and spans the full viewport including the
-     scrollbar gutter, while in-flow content stops at the content edge. Without
-     this the Core shows through an unscrimmed strip beside the scrollbar. */
-  width: 100vw;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* --- reading tier --- */
-
-.scrim-read {
-  background:
-    linear-gradient(
-      90deg,
-      rgba(5, 7, 12, 0.72) 0%,
-      rgba(5, 7, 12, 0.93) 7%,
-      rgba(5, 7, 12, 0.93) 91%,
-      rgba(5, 7, 12, 0.6) 100%
-    );
-}
-
-.scrim-read-left {
-  background: linear-gradient(
-    90deg,
-    rgba(5, 7, 12, 0.95) 0%,
-    rgba(5, 7, 12, 0.93) 56%,
-    rgba(5, 7, 12, 0.8) 74%,
-    rgba(5, 7, 12, 0.34) 90%,
-    transparent 100%
-  );
-}
-
-.scrim-read-right {
-  background: linear-gradient(
-    270deg,
-    rgba(5, 7, 12, 0.95) 0%,
-    rgba(5, 7, 12, 0.93) 56%,
-    rgba(5, 7, 12, 0.8) 74%,
-    rgba(5, 7, 12, 0.34) 90%,
-    transparent 100%
-  );
-}
-
-/* --- film tier --- */
-
-.scrim-film {
-  background: radial-gradient(
-    ellipse 78% 62% at 50% 50%,
-    rgba(5, 7, 12, 0.86) 0%,
-    rgba(5, 7, 12, 0.7) 46%,
-    rgba(5, 7, 12, 0.3) 76%,
-    transparent 100%
-  );
-}
-
-.scrim-film-left {
-  background: linear-gradient(
-    98deg,
-    rgba(5, 7, 12, 0.92) 0%,
-    rgba(5, 7, 12, 0.84) 34%,
-    rgba(5, 7, 12, 0.5) 58%,
-    rgba(5, 7, 12, 0.12) 80%,
-    transparent 100%
-  );
-}
-
-.scrim-bottom {
-  background: linear-gradient(
-    to top,
-    rgba(5, 7, 12, 0.96) 0%,
-    rgba(5, 7, 12, 0.9) 38%,
-    rgba(5, 7, 12, 0.52) 62%,
-    transparent 92%
-  );
-}
-
-/* On narrow screens the Core fills the frame behind everything, so every scrim
-   becomes a flat wash. There is no "beside the text" to fall off into. */
-@media (max-width: 900px) {
-  /* READ: sections that carry paragraphs. Strongly opaque, because body copy
-     over a moving object is the one place contrast cannot be negotiated. The
-     Core still shows at the very top and bottom of each screen. */
-  .scrim-read,
-  .scrim-read-left,
-  .scrim-read-right {
-    background: linear-gradient(
-      to bottom,
-      rgba(5, 7, 12, 0.78) 0%,
-      rgba(5, 7, 12, 0.92) 14%,
-      rgba(5, 7, 12, 0.92) 86%,
-      rgba(5, 7, 12, 0.78) 100%
-    );
-  }
-
-  /* FILM: display-size type, only a few words. Lighter on purpose, so the Core,
-     which is the whole point of these beats, can actually be seen. Large
-     near-white type holds well above 3:1 against it. */
-  .scrim-film,
-  .scrim-film-left {
-    background: linear-gradient(
-      to bottom,
-      rgba(5, 7, 12, 0.5) 0%,
-      rgba(5, 7, 12, 0.66) 50%,
-      rgba(5, 7, 12, 0.5) 100%
-    );
-  }
-
-  /* HERO: the Core fills the top of the screen, the copy sits on solid ground
-     below it. */
-  .scrim-bottom {
-    background: linear-gradient(
-      to top,
-      rgba(5, 7, 12, 0.97) 0%,
-      rgba(5, 7, 12, 0.92) 38%,
-      rgba(5, 7, 12, 0.5) 60%,
-      rgba(5, 7, 12, 0) 84%
-    );
+@layer components {
+  .t-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 }
 
-/* On a phone the beats scroll like an ordinary page. The scroll-driven fades
-   that suit a pinned desktop scene would leave rows stuck at 20% opacity, so
-   anything marked data-reveal resolves fully. */
-.compact-flow [data-reveal],
-.compact-flow [data-reveal] * {
-  opacity: 1 !important;
-  transform: none !important;
+/* ---------- reveal ----------
+   Content is visible by default. The Reveal observer only adds
+   .is-pending to elements that start below the fold, after hydration.
+   With JS off nothing is ever hidden. */
+
+[data-reveal] {
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
 }
-.compact-flow [data-reveal] [data-dot] {
-  background: var(--color-accent-hot) !important;
+[data-reveal].is-pending {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
 }
-.compact-flow [data-reveal] [data-mark] {
-  color: var(--color-accent) !important;
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal].is-pending {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
-/* A live counter that tracks scroll progress means nothing when the whole list
-   is already shown. */
-.compact-flow [data-compact-hide] {
+
+/* ---------- disclosure markers ---------- */
+
+summary {
+  list-style: none;
+  cursor: pointer;
+}
+summary::-webkit-details-marker {
   display: none;
 }
 
-/* A panel for copy that has to be read carefully: the agent run, the booking
-   card. Solid enough to guarantee contrast, still part of the same dark world. */
-.panel {
-  background: rgba(8, 12, 22, 0.82);
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-machined);
-  backdrop-filter: blur(16px) saturate(130%);
-  -webkit-backdrop-filter: blur(16px) saturate(130%);
+/* ---------- arrow micro-interaction (Button + text links) ---------- */
+
+.arrow-shift {
+  transition: transform var(--duration-base) var(--ease-out);
+}
+.group:hover .arrow-shift,
+.group:focus-visible .arrow-shift {
+  transform: translateX(3px);
 }
 
-@media (prefers-reduced-transparency: reduce) {
-  .panel {
-    background: var(--color-abyss);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+/* ---------- home hero: scene sequence ----------
+   Every scene is in the server HTML. Static default (no JS, reduced
+   motion, browsers without the scripting media feature): scene 0 only.
+   Otherwise: ~1s of black panel, then a hard-ish cut (150ms crossfade)
+   every 1.3s through six scenes, looping. Opacity + transform only. */
+
+.hero-scene {
+  opacity: 1;
+}
+.hero-scene:not(:first-child) {
+  opacity: 0;
+}
+@keyframes scene-cut {
+  0% {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  1.9% {
+    opacity: 1;
+  }
+  16.67% {
+    opacity: 1;
+  }
+  18.6% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .hero-scene,
+  .hero-scene:not(:first-child) {
+    opacity: 0;
+    transform-origin: 50% 50%;
+    animation: scene-cut 7.8s linear infinite backwards;
+    animation-delay: calc(1s + var(--i) * 1.3s);
   }
 }
 
-/* ---------- hairline system ---------- */
+/* ---------- hero signature (SVG) ---------- */
 
-.rule {
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--color-line) 12%,
-    var(--color-line) 88%,
-    transparent
-  );
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes node-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes travel {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
 }
 
-/* ---------- reduced motion ---------- */
-
+@media (prefers-reduced-motion: no-preference) {
+  .sig-draw {
+    stroke-dasharray: var(--len, 1200);
+    stroke-dashoffset: var(--len, 1200);
+    animation: draw 2.4s var(--ease-out) var(--d, 0.3s) forwards;
+  }
+  .sig-node {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: node-in 600ms var(--ease-out) var(--d, 0.8s) both;
+  }
+  .sig-pulse {
+    animation: pulse-soft 4.8s ease-in-out var(--d, 0s) infinite;
+  }
+  .sig-packet {
+    animation: travel 7s var(--ease-standard) 2.6s infinite;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-  .grain {
+  .sig-packet {
     display: none;
   }
 }
 
-/* ---------- industry flow reveal ---------- */
+/* ---------- tabs (industries): progressive enhancement ----------
+   Server HTML shows every panel. Once the client has hydrated it sets
+   data-enhanced and only the active panel is displayed. */
 
-@keyframes flowIn {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 12px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [style*="flowIn"] {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-/* Hide the industry rail scrollbar without hiding the ability to scroll it. */
-.no-bar::-webkit-scrollbar {
+[data-tabs][data-enhanced] [data-tab-panel]:not([data-active]) {
   display: none;
+}
+
+/* ---------- home: micro label (12px, the chapter tag). Sans, medium,
+   tracked out, uppercase: SF on Apple, Inter elsewhere. ---------- */
+
+@layer components {
+  .t-micro {
+    font-family: var(--font-sans);
+    font-size: var(--text-micro);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ---------- home: heading reveal ----------
+   Server HTML is the finished state: lead words bright, tail dimmed.
+   When a heading starts below the fold the shared Reveal observer marks it
+   .is-pending; the lead words then wait in the dimmed colour and brighten
+   as the heading arrives. Off entirely under reduced motion. */
+
+.lit {
+  transition: color 1100ms var(--ease-out) 120ms;
+}
+[data-reveal].is-pending .lit {
+  color: var(--color-dim);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lit {
+    transition: none;
+  }
+}
+
+/* ---------- home: layered plates illustration ----------
+   Translucent sheets in perspective. Pure CSS 3D; the drift is transform
+   only and stops under reduced motion. */
+
+.plates {
+  perspective: 1100px;
+  perspective-origin: 50% 40%;
+}
+.plates__stack {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(14deg) rotateY(-30deg) rotateZ(2deg);
+}
+.plates__sheet {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  border: 1px solid rgb(255 255 255 / var(--edge, 0.7));
+  background: rgb(255 255 255 / var(--fill, 0.02));
+  transform: translate3d(calc(var(--i) * 9%), calc(var(--i) * -2%), calc(var(--i) * -58px));
+}
+@keyframes plates-drift {
+  0%,
+  100% {
+    transform: rotateX(14deg) rotateY(-30deg) rotateZ(2deg);
+  }
+  50% {
+    transform: rotateX(11deg) rotateY(-24deg) rotateZ(1deg) translate3d(0, -4px, 0);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .plates--drift .plates__stack {
+    animation: plates-drift 16s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+/* ---------- home: industry word stack ---------- */
+
+.word-tab {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.16em;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--duration-base) var(--ease-out);
+}
+.word-tab[aria-selected="true"] {
+  text-decoration-color: currentColor;
+}
+
+/* ---------- scrollbar hiding for chip rows ---------- */
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ========================================================================
+   Opening splash (see src/components/Intro.tsx). Pure CSS; ends hidden.
+   Language: black ground, hairlines, 11px mono labels, the layered plates.
+   ======================================================================== */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #000;
+  color: #fff;
+  overflow: hidden;
+  pointer-events: all;
+  animation: splash-lift 0.8s cubic-bezier(0.76, 0, 0.24, 1) 4.6s forwards;
+}
+@keyframes splash-lift {
+  0% { transform: none; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  99% { visibility: visible; }
+  100% { transform: translateY(-101%); border-bottom-left-radius: 28px; border-bottom-right-radius: 28px; visibility: hidden; pointer-events: none; }
+}
+
+/* faint technical grid that the whole sequence sits on */
+.splash-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+  background-position: center;
+  -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, #000 0%, transparent 80%);
+  mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, #000 0%, transparent 80%);
+  opacity: 0;
+  animation: splash-in 0.6s ease-out 0.1s forwards, splash-fade-out 0.3s ease-in 4.2s forwards;
+}
+
+/* corner labels */
+.splash-label {
+  position: absolute;
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8d9ab0;
+  opacity: 0;
+  animation: splash-in 0.3s ease-out 0.15s forwards, splash-fade-out 0.25s ease-in 4.25s forwards;
+}
+.splash-tl { top: 5vh; left: 6vw; }
+.splash-tr { top: 5vh; right: 6vw; text-align: right; }
+@media (max-width: 640px) { .splash-tr { display: none; } }
+
+/* readout, bottom-left */
+.splash-readout {
+  position: absolute;
+  left: 6vw;
+  bottom: 9vh;
+  max-width: 80vw;
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  animation: splash-fade-out 0.2s ease-in 2.35s forwards;
+}
+.splash-readout ul { display: grid; gap: 0.5rem; }
+.splash-sys {
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  color: #e6ebf3;
+  opacity: 0;
+  transform: translateX(-6px);
+  animation: splash-slide 0.18s ease-out forwards;
+}
+.splash-sys::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.75rem;
+  background: #06d0f9;
+  vertical-align: 1px;
+}
+.splash-online {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #06d0f9;
+  opacity: 0;
+  animation: splash-in 0.12s ease-out 1.25s forwards;
+}
+@keyframes splash-in { to { opacity: 1; } }
+@keyframes splash-slide { to { opacity: 1; transform: none; } }
+@keyframes splash-fade-out { to { opacity: 0; } }
+
+/* progress: a hairline fills across the bottom, a counter runs with it */
+.splash-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  animation: splash-fade-out 0.25s ease-in 4.25s forwards;
+}
+.splash-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #0196fd, #06d0f9);
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: splash-fill 3.6s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
+}
+@keyframes splash-fill { to { transform: scaleX(1); } }
+
+/* plates: the layered sheets assemble, then fold into the mark */
+.splash-plates {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform: scale(0.82) translateY(24px);
+  filter: blur(8px);
+  animation:
+    splash-plates-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards,
+    splash-plates-out 0.45s cubic-bezier(0.7, 0, 0.84, 0) 2.6s forwards;
+}
+.splash-plates > div { width: min(54vw, 380px); }
+@keyframes splash-plates-in { to { opacity: 1; transform: none; filter: blur(0); } }
+@keyframes splash-plates-out {
+  from { opacity: 1; transform: none; filter: blur(0); }
+  to { opacity: 0; transform: scale(0.35); filter: blur(6px); }
+}
+
+/* one light sweep marks the hand-off from system to brand */
+.splash-sweep {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #06d0f9 50%, transparent);
+  transform: scaleX(0);
+  opacity: 0;
+  animation: splash-sweep 0.7s cubic-bezier(0.16, 1, 0.3, 1) 2.75s forwards;
+}
+@keyframes splash-sweep {
+  0% { transform: scaleX(0); opacity: 1; }
+  60% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+
+/* title card */
+.splash-title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+  opacity: 0;
+  animation: splash-in 0.01s linear 2.9s forwards;
+}
+.splash-mark {
+  width: clamp(64px, 10vmin, 92px);
+  height: auto;
+  opacity: 0;
+  transform: scale(0.9);
+  clip-path: polygon(0 100%, 0 100%, 0 100%, 0 100%, 0 100%);
+  animation:
+    splash-mark 0.6s cubic-bezier(0.16, 1, 0.3, 1) 2.92s forwards,
+    splash-wipe 0.7s cubic-bezier(0.65, 0, 0.35, 1) 2.92s forwards;
+}
+@keyframes splash-mark { to { opacity: 1; transform: none; } }
+/* a diagonal edge sweeps from the bottom-left to the top-right: the mark is
+   built along the direction of its own arrow, and ends fully unclipped */
+@keyframes splash-wipe {
+  0% { clip-path: polygon(0 100%, 0 100%, 0 100%, 0 100%, 0 100%); }
+  50% { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 0, 0 0); }
+  100% { clip-path: polygon(-2% 102%, 102% 102%, 102% -2%, 102% -2%, -2% -2%); }
+}
+.splash-name {
+  margin-top: 1.5rem;
+  font-size: clamp(1.5rem, 1rem + 2.2vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: 0.5em;
+  padding-left: 0.5em;
+  filter: blur(5px);
+  opacity: 0;
+  animation: splash-name 1s cubic-bezier(0.16, 1, 0.3, 1) 3.05s forwards;
+}
+@keyframes splash-name {
+  to { opacity: 1; filter: blur(0); letter-spacing: 0.22em; padding-left: 0.22em; }
+}
+.splash-rule {
+  margin-top: 1.25rem;
+  width: min(220px, 40vw);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #06d0f9, transparent);
+  transform: scaleX(0);
+  animation: splash-rule 0.5s cubic-bezier(0.65, 0, 0.35, 1) 3.3s forwards;
+}
+@keyframes splash-rule { to { transform: scaleX(1); } }
+.splash-desc {
+  margin-top: 1rem;
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8d9ab0;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: splash-slide 0.4s ease-out 3.42s forwards;
+}
+.splash-tag {
+  margin-top: 1.25rem;
+  font-size: 0.9375rem;
+  letter-spacing: -0.011em;
+  color: #c7c7c7;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: splash-slide 0.45s ease-out 3.7s forwards;
+}
+
+@keyframes splash-fade { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .splash { animation: splash-fade 0.4s ease-in-out 1.6s forwards; }
+  .splash-readout, .splash-plates, .splash-sweep, .splash-bar, .splash-grid, .splash-label { display: none; }
+  .splash-title { animation: splash-in 0.01s linear 0s forwards; }
+  .splash-mark, .splash-name, .splash-rule, .splash-desc, .splash-tag { animation: none; opacity: 1; transform: none; filter: none; clip-path: none; }
+  .splash-name { letter-spacing: 0.22em; padding-left: 0.22em; }
+  .splash-rule { transform: scaleX(1); }
 }

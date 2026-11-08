@@ -12,12 +12,12 @@ export const metadata = pageMeta({
 export default function TermsPage() {
   return (
     <LegalDoc
-      crumb="Terms of use"
+      crumb="Terms Of Use"
       path="/terms"
-      title="Terms of use."
+      title="Terms Of Use."
       intro={TERMS_INTRO}
       sections={TERMS}
-      other={{ label: "Read the privacy policy", href: "/privacy" }}
+      other={{ label: "Read The Privacy Policy", href: "/privacy" }}
     />
   );
 }
